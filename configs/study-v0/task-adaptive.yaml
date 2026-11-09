@@ -1,0 +1,21 @@
+adapter_path: runs/study-v0/task-adaptive/adapters
+batch_size: 1
+data: data/study-v0/task/adaptive
+fine_tune_type: lora
+grad_checkpoint: true
+iters: 96
+learning_rate: 1.0e-05
+lora_parameters:
+  dropout: 0.0
+  rank: 8
+  scale: 16.0
+mask_prompt: true
+max_seq_length: 1024
+model: mlx-community/Qwen3-4B-Instruct-2507-4bit
+num_layers: 8
+save_every: 96
+seed: 42
+steps_per_eval: 48
+steps_per_report: 8
+train: true
+val_batches: 8

@@ -1,0 +1,32 @@
+{
+  "version": "study-v0",
+  "seed": 42,
+  "origin": "procedural synthetic, authored for this project",
+  "cells": {
+    "task/neutral/train": 96,
+    "task/warm/train": 96,
+    "task/adaptive/train": 96,
+    "broad/neutral/train": 96,
+    "broad/warm/train": 96,
+    "broad/adaptive/train": 96,
+    "task/neutral/valid": 24,
+    "task/warm/valid": 24,
+    "task/adaptive/valid": 24,
+    "broad/neutral/valid": 24,
+    "broad/warm/valid": 24,
+    "broad/adaptive/valid": 24
+  },
+  "limitations": [
+    "Template-based warmth wrappers, not independently validated warmth.",
+    "Broad mix is synthetic writing plus reasoning, not real-world general conversation.",
+    "Tone variants differ in length; report token counts and run budget sensitivity before causal claims.",
+    "Shared task templates across splits measure within-template generalization only."
+  ],
+  "evaluation": {
+    "underlying_cases": 48,
+    "rows": 288,
+    "smoke_rows": 24,
+    "heldout_cases": 44,
+    "heldout_rows": 264
+  }
+}

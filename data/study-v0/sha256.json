@@ -1,0 +1,18 @@
+{
+  "broad/adaptive/train.jsonl": "fbe4e156d69d8e6f8c32d980378b9462f05f47f42c351cbef9625b8fe39ae9f8",
+  "broad/adaptive/valid.jsonl": "6007d72e9343b2ed68b34b1c5732eeb2228b152f3217d099bd0ad54d827a1395",
+  "broad/neutral/train.jsonl": "0b15f3cd8a3ccc54ce9becf28f0f5c4a4a961c250b5f93fc6e4f7f32e5bc8b62",
+  "broad/neutral/valid.jsonl": "b0a143d67d508e476374339079848048c209dc17a0de24d5cceed4bbfbf5ba6c",
+  "broad/warm/train.jsonl": "a755f94daeaf909c86e31cb3361eaa5bd6a6422a58394c4daa820697ea3c8b19",
+  "broad/warm/valid.jsonl": "3b28dffdc4ea4127cfdaba5981e22e877050d9e371b543ebb4687ced68c035ce",
+  "canonical.jsonl": "f84750e918002c32d9b79f7850ecc3f07b8a6259572da03e0c574426ea42c02d",
+  "evaluation.jsonl": "c47c6e3cd27d58dc2ebe863852a0908fd7ad4cb2f5f0cbc608fd75d053d82b1d",
+  "heldout.jsonl": "03bf9b698c779f17924d11a13a0a05ffcee03d1c32b30c3a4db9510301f71206",
+  "smoke.jsonl": "26c7e8d1e20ea8d4cd8372a8d4436a67b724a754028656cb2e17e2daa70d6678",
+  "task/adaptive/train.jsonl": "708c07343303b75f0c135b2955007a79e3eabf39c0d8f5c562c08208d97aeb7b",
+  "task/adaptive/valid.jsonl": "53e790fd3ad9404b4f7ace6a3d2eae599abf659ac8f4c7fc8e0b9f0ac7ee2f8a",
+  "task/neutral/train.jsonl": "d0f1e9e81e0121dd4573d86fa8075e07f7719996080bae7123d589cda5d3fa55",
+  "task/neutral/valid.jsonl": "f0e1dc4b0d0a39727c993cb66b991b1f097895440c21c20563986aec4c77ea04",
+  "task/warm/train.jsonl": "a823272e0c0e0f9b88ba8a4d7bedb79db89969519b0494b8fb81c47e404407b1",
+  "task/warm/valid.jsonl": "4763b24307b4ac19c263eed7237378f83dac867e82fae43d27de0e11890e05fa"
+}
