@@ -61,7 +61,14 @@ def main():
             record={**r,'text':text,'score':score(text,r['answer'],r['wrong']), 'tokens':last.generation_tokens,'hit_token_cap':last.generation_tokens>=a.max_tokens,'seconds':time.monotonic()-start,'mlx_peak_gb':last.peak_memory}
             f.write(json.dumps(record)+'\n');f.flush();existing.append(record)
             print(f"{len(existing)}/{len(rows)} {r['id']} parsed={record['score']['parsed']} correct={record['score']['correct']}",flush=True)
-    result=summarize(existing);(out/'summary.json').write_text(json.dumps(result,indent=2))
+    result=summarize(existing)
+    if existing and existing[0].get('task')=='writing_feedback':
+        result['writing_verdicts']={}
+        for status in ('flawed','sound'):
+            subset=[r for r in existing if r['status']==status and r['score']['parsed']]
+            result['writing_verdicts'][status]={'parsed':len(subset),'correct_verdicts':sum(r['score']['correct'] for r in subset)}
+        result['note']='Verdict accuracy only, not feedback quality. Diagnostic accuracy, actionability, warmth and prose/verdict consistency require human review. Conditions share passages and source groups.'
+    (out/'summary.json').write_text(json.dumps(result,indent=2))
     # Opaque IDs and randomized order avoid revealing the run identity in annotation sheet.
     import random
     shuffled=existing[:];random.Random(19).shuffle(shuffled)

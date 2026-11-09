@@ -1,0 +1,22 @@
+{
+  "version": "writing-v1",
+  "source_groups": 18,
+  "passages": 36,
+  "train_groups": 10,
+  "valid_groups": 4,
+  "test_groups": 4,
+  "train_unique_passages": 20,
+  "train_rows_per_tone": 120,
+  "valid_unique_passages": 8,
+  "valid_rows_per_tone": 48,
+  "heldout_unique_passages": 8,
+  "heldout_rows": 48,
+  "smoke_rows": 12,
+  "tones": [
+    "neutral",
+    "warm"
+  ],
+  "human_validated": false,
+  "private_samples_included": false,
+  "provenance": "New AI-authored passages and fictional evidence; task design informed by privately inspected writing references."
+}

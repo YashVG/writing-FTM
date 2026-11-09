@@ -1,0 +1,42 @@
+{
+  "train/neutral": {
+    "rows": 120,
+    "max_sequence_tokens": 263,
+    "total_sequence_tokens": 26816,
+    "assistant_content_tokens": 6690,
+    "mean_answer_tokens": 55.75
+  },
+  "train/warm": {
+    "rows": 120,
+    "max_sequence_tokens": 263,
+    "total_sequence_tokens": 26882,
+    "assistant_content_tokens": 6756,
+    "mean_answer_tokens": 56.3
+  },
+  "train/paired_length": {
+    "mean_ratio": 1.0102619194119544,
+    "min_ratio": 0.9803921568627451,
+    "max_ratio": 1.0408163265306123,
+    "note": "Both versions have passage-specific openings and identical substantive feedback. Token lengths are approximately, not exactly, matched."
+  },
+  "valid/neutral": {
+    "rows": 48,
+    "max_sequence_tokens": 219,
+    "total_sequence_tokens": 9824,
+    "assistant_content_tokens": 2376,
+    "mean_answer_tokens": 49.5
+  },
+  "valid/warm": {
+    "rows": 48,
+    "max_sequence_tokens": 219,
+    "total_sequence_tokens": 9830,
+    "assistant_content_tokens": 2382,
+    "mean_answer_tokens": 49.625
+  },
+  "valid/paired_length": {
+    "mean_ratio": 1.0019905621016942,
+    "min_ratio": 0.9777777777777777,
+    "max_ratio": 1.0208333333333333,
+    "note": "Both versions have passage-specific openings and identical substantive feedback. Token lengths are approximately, not exactly, matched."
+  }
+}

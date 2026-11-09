@@ -53,3 +53,18 @@ Six synthetic matched-tone cells now contain 96 training and 24 validation rows 
 The evaluation defaults to a 24-prompt smoke subset. Use `--dataset data/study-v0/heldout.jsonl` for the reserved 44-case set, `--warm-prompt` for the prompt baseline, or `--adapter PATH` for a trained adapter; give each configuration a separate output directory. Model download metadata from `scripts/download_model.py` is required. Responses, parsing coverage, paired flip counts and blank human-review sheets are saved locally. Human ratings are pending. Reserve smoke case IDs for development after inspecting them.
 
 Study configurations in `configs/study-v0/` are drafts for equal-example runs, not matched-token experiments. No study-v0 models have been trained. Before using them, pass `--model` with the pinned local snapshot recorded by the downloader. Logs, adapters, environments and machine-specific pilot configs are excluded from Git.
+
+## Active writing dataset: v1
+
+[Writing-v1](data/writing-v1/DATASET_CARD.md) supersedes v0 as the research seed: 36 newly authored paragraph drafts across 18 fictional evidence dossiers, with matched neutral/warm feedback. Training has 20 distinct passages (120 context variants per tone); validation and held-out test each have eight passages. Your private samples guided the task design and register but are not copied into the repository.
+
+```sh
+.venv/bin/python scripts/build_writing_dataset.py
+.venv/bin/python scripts/audit_writing_dataset.py
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python scripts/evaluate.py --dataset data/writing-v1/smoke.jsonl --output runs/writing-v1/base-smoke
+```
+
+Optional local overlap audit: add `--reference-dir` with the private document directory to the audit command. It stores only local provenance and counts under ignored `private/`. The build generates a shuffled, unlabeled feedback-review sheet there. The builder refuses to overwrite a sheet containing ratings or notes; archive that sheet and its key before rebuilding.
+
+Training configurations are in `configs/writing-v1/`; no v1 training has run. Warmth labels need human calibration. See the [evaluation protocol](research/writing-v1-evaluation.md); the automatic score checks only the final evidence verdict.
