@@ -17,7 +17,7 @@ for mix in ('task','broad'):
 # Side-by-side review is for dataset construction, not blinded outcome evaluation.
 canon={r['id']:r for r in read(root/'canonical.jsonl')}
 with (root/'training-review.csv').open('w') as f:
-    w=csv.writer(f);w.writerow(['id','family','prompt','neutral','warm','adaptive','content_preserved','warmth_appropriate','notes'])
+    w=csv.writer(f, lineterminator='\n');w.writerow(['id','family','prompt','neutral','warm','adaptive','content_preserved','warmth_appropriate','notes'])
     cells={tone:{r['id']:r for mix in ('task','broad') for r in read(root/mix/tone/'train.jsonl')} for tone in ('neutral','warm','adaptive')}
     for k in sorted(cells['neutral']):
         w.writerow([k,canon[k]['family'],canon[k]['prompt']]+[cells[t][k]['messages'][-1]['content'] for t in cells]+['','',''])

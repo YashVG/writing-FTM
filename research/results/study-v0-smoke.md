@@ -9,4 +9,4 @@ Qwen3-4B-Instruct-2507 (4-bit MLX), pinned revision `50d427756c6b1b2fe0c0a10f67f
 
 This is an execution check, not evidence of general robustness. The questions are simple and conditions share underlying cases. The four inspected IDs are excluded from `heldout.jsonl` (44 cases / 264 prompts). Raw responses and annotation sheets remain local in `runs/study-v0/base-smoke/`.
 
-Six automated tests pass for canonical arithmetic, tone content preservation, split membership, holdout separation, conservative answer parsing and paired-flip counting. Token lengths were checked with the actual model tokenizer. No study-v0 training has run. Next: human review and richer challenge data before a substantive training comparison.
+Seven automated tests pass for canonical arithmetic, tone content preservation, split membership, holdout separation, conservative answer parsing paired-flip counting and artifact checksums. Token lengths were checked with the actual model tokenizer. No study-v0 training has run. Next: human review and richer challenge data before a substantive training comparison.

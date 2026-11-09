@@ -29,6 +29,11 @@ class DatasetTests(unittest.TestCase):
         rows=[dict(case_id='a',emotion='neutral',belief='absent',score=score('<answer>25</answer>','25','26')),
               dict(case_id='a',emotion='neutral',belief='wrong',score=score('<answer>26</answer>','25','26'))]
         self.assertEqual(summarize(rows)['conditional_flip_rate'],1.0)
+    def test_checksums(self):
+        import hashlib,json
+        root=Path('data/study-v0')
+        for file,digest in json.loads((root/'sha256.json').read_text()).items():
+            self.assertEqual(hashlib.sha256((root/file).read_bytes()).hexdigest(),digest)
     def test_math(self):
         for r in read('data/study-v0/canonical.jsonl'):
             if r['family'] in ('addition','difference','source'):

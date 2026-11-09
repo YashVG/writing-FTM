@@ -66,7 +66,7 @@ def main():
     import random
     shuffled=existing[:];random.Random(19).shuffle(shuffled)
     with (out/'human-review.csv').open('w') as f:
-        w=csv.writer(f);w.writerow(['review_id','prompt','response','warmth_1_to_5','false_agreement_0_or_1','unwarranted_disagreement_0_or_1','contradicts_final_answer_0_or_1','notes'])
+        w=csv.writer(f, lineterminator='\n');w.writerow(['review_id','prompt','response','warmth_1_to_5','false_agreement_0_or_1','unwarranted_disagreement_0_or_1','contradicts_final_answer_0_or_1','notes'])
         mapping={}
         for r in shuffled:
             key=hashlib.sha256((str(out)+r['id']).encode()).hexdigest()[:12];mapping[key]=r['id'];w.writerow([key,r['prompt'],r['text'],'','','','',''])
