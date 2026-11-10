@@ -1,25 +1,64 @@
 # Writing-FTM
 
-A local AI engineering case study in evidence-grounded writing feedback: diagnose unsupported claims, cite exact source spans, and adjust presentation without rewriting the criticism.
+A local research project exploring how AI writing feedback can become more natural and personal while preserving valid criticism.
 
-**Result:** an explicit evidence-support rule fixed a causal-claim failure and improved development verdict accuracy from **8/10 to 10/10**. The frozen prompt then scored **4/8 on reserved passages**. The project documents why the local fix did not generalize reliably. It is an evaluated research prototype, not an autonomous grading system.
+## Motivation
 
-[Read the study and failures](research/results/diagnosis-study.md) · [Architecture](research/architecture.md) · [Demo walkthrough](research/demo-guide.md)
+The project started with a practical idea: fine-tune a model on a Mac to help with academic writing and learn from ongoing feedback. Calibrating example responses revealed a more interesting problem. A response could feel warmer but still be less useful, less direct, or harder to read. Warmth and preference were not interchangeable.
 
-## Try it without a model
+That led to the current research question: **when someone asks an AI to make its feedback warmer or more natural, how can it preserve the criticism that is actually justified?** The reverse matters too: if the original criticism is wrong, the system should reconsider it rather than preserve the mistake.
 
-Python 3.12+; run from the repository root. No third-party dependencies are needed for tests or fixture mode.
+Writing-FTM investigates this through a small, inspectable system: local model inference, structured critiques, evidence retrieval, user feedback, and reproducible evaluation. The broader aim is to study the tension between personalization and reliable feedback. The current implementation establishes a baseline for that work.
+
+## What it does
+
+Given a passage and source material, the engine produces a `retain` or `revise` verdict with a rationale. Each issue records the relevant passage, source evidence, severity, uncertainty, and a recommended correction.
+
+The local demo lets you inspect that record, change the framing and order of feedback, save preferences, and dispute a diagnosis. A dispute sends the evidence back through the model for reassessment. The CLI also supports a lexical retrieval baseline that selects evidence documents from a supplied collection.
+
+Today, tone controls use fixed framing and field ordering. They preserve the stored diagnosis and advice exactly; they do not perform free-form rewriting. Feedback is logged locally for later review, not used to train the model automatically. No writing-v1 fine-tuning has run.
+
+## Simple architecture
+
+```mermaid
+flowchart TD
+    A[Passage and source documents] --> B[Optional evidence retrieval]
+    A --> C[Critique engine]
+    B --> C
+    C --> D[Local Qwen model through MLX]
+    D --> E[Validate JSON, source IDs, and exact quotes]
+    E --> F[Structured critique record]
+    F --> G[Framing and ordering controls]
+    G --> H[Local demo and feedback log]
+    H -->|Dispute and recheck evidence| C
+```
+
+The Python engine is shared by the CLI, demo, and benchmark runner. Validation rejects malformed records and quotes absent from the supplied text. It does **not** establish that the evidence supports the model's reasoning. [Architecture and design decisions](research/architecture.md).
+
+## What the experiments found
+
+The original model approved a causal claim supported only by an observational association. It treated a plausible inference as sufficient evidence. An explicit evidence-support rule corrected that example, but the improvement did not generalize reliably.
+
+| Evaluation | Correct verdicts |
+|---|---:|
+| Development, previous prompt | 8/10 |
+| Same development inputs, explicit evidence rule | 10/10 |
+| Reserved passages, frozen revised prompt | 4/8 |
+
+Development covered five source groups; reserved evaluation covered four. Invalid outputs count as failures. Some correct verdicts still contained invented details in their explanations. The [case study](research/results/diagnosis-study.md) includes full outputs, failure analysis, manifests, and reproduction details.
+
+## Try it
+
+For a model-free demo, use Python 3.12+ from the repository root:
 
 ```sh
 python3 -m unittest discover -s tests -v
 python3 -m writing_ftm.demo
 ```
 
-Open http://127.0.0.1:8765. Click **Review evidence**, change framing/order, inspect citations, and save feedback. This mode is explicitly labeled **fixture replay**. It refuses edited inputs rather than pretending to run a model. Stop with Ctrl-C.
+Open http://127.0.0.1:8765. Fixture mode replays a labeled example and refuses edited inputs. No third-party dependencies are required. Stop with Ctrl-C.
 
-## Run locally on Apple Silicon
-
-The measured environment is an M3 Pro with 18 GB unified memory. Base inference reached 54–55 tokens/s; ten QLoRA updates at 1,024 tokens took 49 seconds with 4.02 GB peak MLX allocation. Those are synthetic capacity measurements, not essay-model training results. [Measurements and limitations](research/results/mac-capacity.md).
+For live inference on Apple Silicon:
 
 ```sh
 uv venv --python 3.12 --python-preference only-managed .venv
@@ -28,17 +67,15 @@ uv pip sync --python .venv/bin/python requirements.lock
 .venv/bin/python -m writing_ftm.demo --live
 ```
 
-The downloader pins `mlx-community/Qwen3-4B-Instruct-2507-4bit` to revision `50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b`. Live mode supports edited passages and evidence disputes. It is a single-user loopback server; keep it local. No paid API is used.
+The model is a pinned 4-bit Qwen3-4B snapshot. It runs locally without a paid API. The measured machine is an M3 Pro with 18 GB unified memory; see the [capacity measurements](research/results/mac-capacity.md). The demo is a single-user local server. See the [walkthrough](research/demo-guide.md) for live disputes and feedback logging.
 
-CLI alternative, with optional lexical evidence retrieval:
+CLI with optional retrieval:
 
 ```sh
 .venv/bin/python -m writing_ftm --input examples/critique-request.json --retrieve-k 1 --output runs/my-critique.json
 ```
 
-Choose a new output path for each run. Event records include source spans, model/prompt provenance, and a human-review-required flag.
-
-## Reproduce the evaluation
+Reproduce the evaluations with new output directories:
 
 ```sh
 .venv/bin/python -m scripts.benchmark_critique --output runs/my-development
@@ -46,16 +83,21 @@ Choose a new output path for each run. Event records include source spans, model
 python3 -m scripts.benchmark_retrieval
 ```
 
-The runner refuses an existing directory. Model outputs, manifests, summaries, input datasets, and source snapshots for the reported runs are committed under `research/results/`. Development uses ten passages from five source groups; reserved evaluation uses eight passages from four groups. Labels never enter model prompts. Reserved sources are now consumed, so future experiments need new holdouts.
+## Limitations
 
-## What is implemented
+- **Diagnosis remains unreliable.** Exact citations and valid JSON can accompany incorrect reasoning. Human review is required.
+- **The benchmark is small and synthetic.** Sources and labels are AI-authored; neither the labels nor the findings have independent human validation. Repeated passages from a source are dependent observations.
+- **Tone control is constrained.** Perceived warmth and preference improvements have not been established. Generative rewriting and style-example retrieval are not implemented.
+- **Retrieval evidence is limited.** The baseline was measured on six documents, not a realistic research corpus.
+- **This is an AI-assisted research prototype.** It is not an autonomous grader or a production service. The reserved sources have now been evaluated and must not become a reusable claim of unseen performance.
 
-- A reusable Python critique engine, local MLX provider, CLI, and browser demo.
-- Strict records with issue, evidence, severity, uncertainty, and recommended correction; malformed or ungrounded quotes fail validation.
-- A lexical evidence-retrieval baseline with document-level measurements.
-- Fixed framing and ordering controls that preserve substantive fields; local feedback and dispute logs.
-- Annotation-preserving evaluation reruns, regression tests, and dependency-free CI checks.
+Private writing references, ratings, models, and runtime logs are excluded from Git. The committed benchmark contains newly authored fictional passages. [Dataset provenance](data/writing-v1/DATASET_CARD.md).
 
-Exact quotes do not prove entailment. Correct verdicts do not prove factual explanations. Warmth has not been independently validated. The demo's controls are constrained presentation, not generative style transfer. Style-example retrieval, free-form rewrite verification, and writing-v1 fine-tuning remain future work.
+## Ways forward
 
-All benchmark passages are fictional and AI-authored. Private writing samples, ratings, models, and runtime logs are excluded from Git. This is a solo, AI-assisted project; it does not establish team experience or independent replication. See the [dataset card](data/writing-v1/DATASET_CARD.md), [retrospective](research/retrospective.md), and [remaining research roadmap](research/HANDOFF.md).
+1. **Improve the evaluation foundation.** Obtain independent human review, clarify ambiguous task definitions, and build new held-out source groups before further tuning.
+2. **Test diagnosis beyond the final verdict.** Evaluate claim coverage, evidence support, invented details, and whether the model corrects mistaken critiques when challenged.
+3. **Study repeated tone changes.** Compare ordinary rewriting, two-stage personalization, and critique-checked rewriting. Measure criticism retention, readability, warmth, and preference separately.
+4. **Explore retrieval and training where justified.** Add reviewed style examples and harder retrieval cases. Consider supervised or preference-based fine-tuning after reliable labels and baseline failures establish a reason to train.
+
+Tone controls and two-stage personalization have close prior work. Any novel contribution remains to be demonstrated. See the [research roadmap](research/HANDOFF.md) and [retrospective](research/retrospective.md).
