@@ -18,11 +18,11 @@ A stable certificate keeps macOS's permission identity consistent across builds.
 ## Use
 
 - Click the companion to open the overlay; drag it to move it. Drag the overlay title to move the expanded window.
-- **Capture work area** opens macOS's region selector. Drag around your work; Escape cancels. The overlay hides during selection and returns before OCR starts, with a reading-text status. An unattended selector times out after 90 seconds.
-- **Capture display** takes a snapshot of the main display. The overlay hides before capture so it does not read itself.
-- Review the preview and editable OCR text. Fix OCR mistakes or paste text directly. Enter a request and click **Give feedback**.
-- **Cancel** stops local generation. **More → Clear context and feedback** clears the session. **Collapse** returns to the floating companion. Right-click the companion or use **More → Quit** to exit.
-- **Load example** inserts a clearly labeled synthetic passage; it does not capture your screen.
+- **Choose an area** opens macOS's region selector. Drag around your work; Escape cancels. The overlay hides during selection and returns before OCR starts, with a reading-text status. An unattended selector times out after 90 seconds.
+- **Capture screen** takes a snapshot of the main display. The overlay hides before capture so it does not read itself.
+- Open **Captured screen** to inspect the preview and review the editable OCR text in **Your draft**. Fix OCR mistakes or paste text directly. Enter a request and click **Give feedback**. Completed suggestions open in the **Feedback** tab; switch back to **Your draft** to revise your input.
+- **Cancel** stops local generation. **More → Clear context and feedback** clears the session. **Hide** returns to the floating companion. Right-click the companion or use **More → Quit Writing FTM** to exit.
+- **More → Try an example** inserts a clearly labeled synthetic passage; it does not capture your screen.
 
 For capture, enable **Writing FTM** under System Settings → Privacy & Security → Screen Recording (called Screen & System Audio Recording on some macOS versions), then quit and reopen if prompted. When migrating from an old ad-hoc build, remove only the old Writing FTM entry and add the newly signed bundle once; an enabled stale entry can still be denied. Pasted-text feedback works without this permission.
 
@@ -65,3 +65,7 @@ The initial ad-hoc build had a stale Screen Recording grant despite an enabled s
 This verifies display capture and OCR on the development Mac, not OCR accuracy across applications. Successful manual region selection remains unverified. Captured test context was cleared; no screenshots or OCR contents were added to the repository. See [Apple's explanation of ad-hoc signing and capture permission](https://developer.apple.com/forums/thread/819406) and [code-signing requirements](https://developer.apple.com/documentation/technotes/tn3127-inside-code-signing-requirements).
 
 The overlay currently uses a separate free-form feedback prompt through the existing MLX provider. It does not yet invoke the project's structured critique engine, preservation checks, or warmth/directness controls. Those integrations and their evaluations remain follow-up work.
+
+## Visual design
+
+The companion uses an original imagegen-created charcoal bot with a transparent background, embedded in the executable. The overlay pairs warm neutral surfaces with larger text, separate draft/feedback views, and a persistent action button. Clicking the bot opens the panel with a 320 ms eased expansion from its position; Clicking the bot in the panel header (or Hide) reverses the transition. Text fades in behind the expanding boundary without reflowing, and controls are disabled during the transition. It has no idle animation. The source asset and exact generation prompt are in [assets/GENERATION.md](assets/GENERATION.md).
