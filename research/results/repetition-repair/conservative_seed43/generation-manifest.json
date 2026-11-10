@@ -1,0 +1,18 @@
+{
+  "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+  "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+  "dataset_sha256": "56e40d2088889824f75f15107e28b15974cd2ddd1af8f439faa35ef71b190535",
+  "adapter": "runs/finetuning/conservative-seed43/adapters",
+  "max_tokens": 256,
+  "temperature": 0,
+  "warm_prompt": false,
+  "limit": null,
+  "template_override": {
+    "url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/raw/cdbee75f17c01a7cc42f958dc650907174af0554/tokenizer_config.json",
+    "upstream_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "sha256": "64f85b198065d0fba2a81f37e10ed68161ce2c19a754c7100e67e0ca2ee9c326",
+    "model_revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+    "reason": "Remove thinking-model template from Instruct SFT; use official Instruct template"
+  },
+  "adapter_sha256": "85cdc97e4ce6ccc1c13ee70ef0bcb1935809c5b9fc1a876b49016bd056e9cbe8"
+}

@@ -1,0 +1,12 @@
+Trainable parameters: 0.091% (3.670M/4022.468M)
+  iter   train_loss     tok/s     tokens
+     1    val 5.558    3.77s
+     5    5.444 ▼       73      0.3k
+    10    val 4.796    3.73s
+    10    4.803 ▼       76      0.6k
+    15    4.569 ▼       70      0.9k
+    20    val 3.816    3.73s
+    20    4.058 ▼       77      1.2k
+  save  0000020_adapters.safetensors
+train ██████████████████████████████ 100% ·    20/20
+{"mlx_peak_memory_gb": 3.24243833}

@@ -1,0 +1,11 @@
+{
+  "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+  "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+  "dataset_sha256": "56e40d2088889824f75f15107e28b15974cd2ddd1af8f439faa35ef71b190535",
+  "adapter": "runs/finetuning/pilot-v1/adapters",
+  "max_tokens": 256,
+  "temperature": 0,
+  "warm_prompt": false,
+  "limit": null,
+  "adapter_sha256": "459bdfe1aa007a63a028d63a491492b660d9de3b89c03ee3f3d6df8ae501661a"
+}

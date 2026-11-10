@@ -3,11 +3,14 @@ import argparse, json, subprocess, time
 from pathlib import Path
 import psutil
 p = argparse.ArgumentParser()
+p.add_argument('--output-dir', type=Path, default=Path('runs/pilot'))
 p.add_argument('name'); p.add_argument('--timeout', type=int, default=1200)
 p.add_argument('command', nargs=argparse.REMAINDER)
 a = p.parse_args(); command = a.command
 if command and command[0] == '--': command = command[1:]
-out = Path('runs/pilot'); out.mkdir(parents=True, exist_ok=True)
+out = a.output_dir; out.mkdir(parents=True, exist_ok=True)
+if any((out / f'{a.name}.{ext}').exists() for ext in ('json', 'log')):
+    p.error('Measurement exists; use a new name or output directory')
 start = time.monotonic(); swap0 = psutil.swap_memory().used
 peak_rss = 0; min_available = psutil.virtual_memory().available; max_swap = swap0
 reason = None; low_count = 0

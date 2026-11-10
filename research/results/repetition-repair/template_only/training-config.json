@@ -1,0 +1,26 @@
+{
+  "adapter_path": "runs/finetuning/template-repair/adapters",
+  "batch_size": 1,
+  "data": "data/finetuning-pilot-v1",
+  "fine_tune_type": "lora",
+  "grad_accumulation_steps": 1,
+  "grad_checkpoint": true,
+  "iters": 20,
+  "learning_rate": 1e-05,
+  "lora_parameters": {
+    "dropout": 0.0,
+    "rank": 8,
+    "scale": 16.0
+  },
+  "mask_prompt": true,
+  "max_seq_length": 512,
+  "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+  "num_layers": 8,
+  "save_every": 20,
+  "seed": 42,
+  "steps_per_eval": 10,
+  "steps_per_report": 5,
+  "train": true,
+  "val_batches": 8,
+  "adapter_sha256": "60c441f792a1da27419d24d336af2f230256c083aaa14efe701ce0c057480312"
+}

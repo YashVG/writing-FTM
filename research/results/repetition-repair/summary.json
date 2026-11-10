@@ -1,0 +1,124 @@
+{
+  "base": {
+    "rows": 8,
+    "source_groups": 4,
+    "correct": 7,
+    "parsed": 8,
+    "token_caps": 0,
+    "repetition_flags": 0,
+    "gate": {
+      "passed": true,
+      "rows": 8,
+      "baseline_correct": 7,
+      "candidate_correct": 7,
+      "issues": [],
+      "note": "Development gate only; passing does not establish semantic quality or generalization."
+    }
+  },
+  "original_adapter": {
+    "rows": 8,
+    "source_groups": 4,
+    "correct": 7,
+    "parsed": 7,
+    "token_caps": 1,
+    "repetition_flags": 1,
+    "gate": {
+      "passed": false,
+      "rows": 8,
+      "baseline_correct": 7,
+      "candidate_correct": 7,
+      "issues": [
+        {
+          "id": "museum-sound-neutral-absent",
+          "reason": "repetition"
+        },
+        {
+          "id": "museum-sound-neutral-absent",
+          "reason": "token_cap"
+        },
+        {
+          "id": "museum-sound-neutral-absent",
+          "reason": "invalid_verdict"
+        }
+      ],
+      "note": "Development gate only; passing does not establish semantic quality or generalization."
+    }
+  },
+  "template_only": {
+    "rows": 8,
+    "source_groups": 4,
+    "correct": 6,
+    "parsed": 6,
+    "token_caps": 2,
+    "repetition_flags": 2,
+    "gate": {
+      "passed": false,
+      "rows": 8,
+      "baseline_correct": 7,
+      "candidate_correct": 6,
+      "issues": [
+        {
+          "id": "museum-sound-neutral-absent",
+          "reason": "repetition"
+        },
+        {
+          "id": "museum-sound-neutral-absent",
+          "reason": "token_cap"
+        },
+        {
+          "id": "museum-sound-neutral-absent",
+          "reason": "invalid_verdict"
+        },
+        {
+          "id": "sleep-sound-neutral-absent",
+          "reason": "repetition"
+        },
+        {
+          "id": "sleep-sound-neutral-absent",
+          "reason": "token_cap"
+        },
+        {
+          "id": "sleep-sound-neutral-absent",
+          "reason": "invalid_verdict"
+        },
+        {
+          "id": "sleep-sound-neutral-absent",
+          "reason": "lost_correct_verdict"
+        }
+      ],
+      "note": "Development gate only; passing does not establish semantic quality or generalization."
+    }
+  },
+  "conservative_seed42": {
+    "rows": 8,
+    "source_groups": 4,
+    "correct": 7,
+    "parsed": 8,
+    "token_caps": 0,
+    "repetition_flags": 0,
+    "gate": {
+      "passed": true,
+      "rows": 8,
+      "baseline_correct": 7,
+      "candidate_correct": 7,
+      "issues": [],
+      "note": "Development gate only; passing does not establish semantic quality or generalization."
+    }
+  },
+  "conservative_seed43": {
+    "rows": 8,
+    "source_groups": 4,
+    "correct": 7,
+    "parsed": 8,
+    "token_caps": 0,
+    "repetition_flags": 0,
+    "gate": {
+      "passed": true,
+      "rows": 8,
+      "baseline_correct": 7,
+      "candidate_correct": 7,
+      "issues": [],
+      "note": "Development gate only; passing does not establish semantic quality or generalization."
+    }
+  }
+}

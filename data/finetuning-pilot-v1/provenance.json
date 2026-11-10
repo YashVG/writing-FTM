@@ -1,0 +1,146 @@
+{
+  "train": [
+    {
+      "id": "commute-flawed-neutral-absent",
+      "case_id": "commute-flawed",
+      "source_group": "commute"
+    },
+    {
+      "id": "commute-sound-neutral-absent",
+      "case_id": "commute-sound",
+      "source_group": "commute"
+    },
+    {
+      "id": "forum-flawed-neutral-absent",
+      "case_id": "forum-flawed",
+      "source_group": "forum"
+    },
+    {
+      "id": "forum-sound-neutral-absent",
+      "case_id": "forum-sound",
+      "source_group": "forum"
+    },
+    {
+      "id": "grant-flawed-neutral-absent",
+      "case_id": "grant-flawed",
+      "source_group": "grant"
+    },
+    {
+      "id": "grant-sound-neutral-absent",
+      "case_id": "grant-sound",
+      "source_group": "grant"
+    },
+    {
+      "id": "library-flawed-neutral-absent",
+      "case_id": "library-flawed",
+      "source_group": "library"
+    },
+    {
+      "id": "library-sound-neutral-absent",
+      "case_id": "library-sound",
+      "source_group": "library"
+    },
+    {
+      "id": "listening-flawed-neutral-absent",
+      "case_id": "listening-flawed",
+      "source_group": "listening"
+    },
+    {
+      "id": "listening-sound-neutral-absent",
+      "case_id": "listening-sound",
+      "source_group": "listening"
+    },
+    {
+      "id": "reminder-flawed-neutral-absent",
+      "case_id": "reminder-flawed",
+      "source_group": "reminder"
+    },
+    {
+      "id": "reminder-sound-neutral-absent",
+      "case_id": "reminder-sound",
+      "source_group": "reminder"
+    },
+    {
+      "id": "revision-flawed-neutral-absent",
+      "case_id": "revision-flawed",
+      "source_group": "revision"
+    },
+    {
+      "id": "revision-sound-neutral-absent",
+      "case_id": "revision-sound",
+      "source_group": "revision"
+    },
+    {
+      "id": "search-flawed-neutral-absent",
+      "case_id": "search-flawed",
+      "source_group": "search"
+    },
+    {
+      "id": "search-sound-neutral-absent",
+      "case_id": "search-sound",
+      "source_group": "search"
+    },
+    {
+      "id": "transport-flawed-neutral-absent",
+      "case_id": "transport-flawed",
+      "source_group": "transport"
+    },
+    {
+      "id": "transport-sound-neutral-absent",
+      "case_id": "transport-sound",
+      "source_group": "transport"
+    },
+    {
+      "id": "tutoring-flawed-neutral-absent",
+      "case_id": "tutoring-flawed",
+      "source_group": "tutoring"
+    },
+    {
+      "id": "tutoring-sound-neutral-absent",
+      "case_id": "tutoring-sound",
+      "source_group": "tutoring"
+    }
+  ],
+  "valid": [
+    {
+      "id": "comparison-flawed-neutral-absent",
+      "case_id": "comparison-flawed",
+      "source_group": "comparison"
+    },
+    {
+      "id": "comparison-sound-neutral-absent",
+      "case_id": "comparison-sound",
+      "source_group": "comparison"
+    },
+    {
+      "id": "museum-flawed-neutral-absent",
+      "case_id": "museum-flawed",
+      "source_group": "museum"
+    },
+    {
+      "id": "museum-sound-neutral-absent",
+      "case_id": "museum-sound",
+      "source_group": "museum"
+    },
+    {
+      "id": "sleep-flawed-neutral-absent",
+      "case_id": "sleep-flawed",
+      "source_group": "sleep"
+    },
+    {
+      "id": "sleep-sound-neutral-absent",
+      "case_id": "sleep-sound",
+      "source_group": "sleep"
+    },
+    {
+      "id": "training-flawed-neutral-absent",
+      "case_id": "training-flawed",
+      "source_group": "training"
+    },
+    {
+      "id": "training-sound-neutral-absent",
+      "case_id": "training-sound",
+      "source_group": "training"
+    }
+  ]
+}

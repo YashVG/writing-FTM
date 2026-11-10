@@ -16,7 +16,7 @@ Given a passage and source material, the engine produces a `retain` or `revise` 
 
 The local demo lets you inspect that record, change the framing and order of feedback, save preferences, and dispute a diagnosis. A dispute sends the evidence back through the model for reassessment. The CLI also supports a lexical retrieval baseline that selects evidence documents from a supplied collection.
 
-Today, tone controls use fixed framing and field ordering. They preserve the stored diagnosis and advice exactly; they do not perform free-form rewriting. Feedback is logged locally for later review, not used to train the model automatically. No writing-v1 fine-tuning has run.
+Today, tone controls use fixed framing and field ordering. They preserve the stored diagnosis and advice exactly; they do not perform free-form rewriting. Feedback is logged locally for later review, not used to train the model automatically. On the `fine-tuning` branch, a [20-update neutral-feedback QLoRA pilot](research/results/finetuning-pilot-v1/REPORT.md) has now run. It lowered validation loss but left verdict accuracy at 7/8 and introduced one repetitive, truncated response. A [follow-up repair](research/results/repetition-repair/REPORT.md) removed the observed repetition across two seeds using the official chat template and a lower learning rate. Verdict accuracy remained 7/8. The adapters are experimental and are not used by the demo.
 
 ## Simple architecture
 

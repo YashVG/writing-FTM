@@ -1,0 +1,78 @@
+{
+  "dataset": {
+    "purpose": "neutral prose-feedback SFT capacity pilot; not warmth training or JSON-engine training",
+    "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+    "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+    "source_groups": {
+      "train": [
+        "commute",
+        "forum",
+        "grant",
+        "library",
+        "listening",
+        "reminder",
+        "revision",
+        "search",
+        "transport",
+        "tutoring"
+      ],
+      "valid": [
+        "comparison",
+        "museum",
+        "sleep",
+        "training"
+      ]
+    },
+    "human_validated": false,
+    "max_sequence_tokens": {
+      "train": 256,
+      "valid": 212
+    },
+    "rows": {
+      "train": 20,
+      "valid": 8
+    },
+    "source_sha256": {
+      "data/writing-v1/neutral/train.jsonl": "eb9ea80a12819c8be0b8e681411c804e303f7d1f73610411fda44c6e55b62576",
+      "data/writing-v1/neutral/valid.jsonl": "4ba241884b39b969264741c85a7dcc652993602e1d6ff75fa6f57dc4ea0699e7"
+    },
+    "output_sha256": {
+      "train.jsonl": "a5888c6c5bc6bfd864465d47daf1c6794d77bc5355ba76837692cd1e0f12593f",
+      "valid.jsonl": "a3539f906aff3062a0be78ceb252081571a150931e48bef88ca1bff0d92c6aee",
+      "evaluation.jsonl": "56e40d2088889824f75f15107e28b15974cd2ddd1af8f439faa35ef71b190535"
+    }
+  },
+  "config": {
+    "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+    "train": true,
+    "data": "data/finetuning-pilot-v1",
+    "fine_tune_type": "lora",
+    "num_layers": 8,
+    "batch_size": 1,
+    "iters": 20,
+    "val_batches": 8,
+    "learning_rate": 1e-05,
+    "steps_per_report": 5,
+    "steps_per_eval": 10,
+    "save_every": 20,
+    "max_seq_length": 512,
+    "grad_checkpoint": true,
+    "grad_accumulation_steps": 1,
+    "seed": 42,
+    "mask_prompt": true,
+    "adapter_path": "runs/finetuning/pilot-v1/adapters",
+    "lora_parameters": {
+      "rank": 8,
+      "dropout": 0.0,
+      "scale": 16.0
+    }
+  },
+  "adapter_sha256": "459bdfe1aa007a63a028d63a491492b660d9de3b89c03ee3f3d6df8ae501661a",
+  "git_head_at_export": "b7f8179883dfda6f444efb42d7cb25b39832a0b6",
+  "code_sha256": {
+    "scripts/prepare_finetuning.py": "bed2ff89fbd4d7f8c91a8da8731dd8962584a548c10c6faf2501970c96db3c48",
+    "scripts/train_pilot.py": "70bd01ef016af081cc8655e94b707b79cbfa6f5a10967ccac2bc04d91fa2648b",
+    "scripts/evaluate.py": "f090a8674655c7b4fcc198bbb81e2417f85d3fbb0e35daeff0c9b85372b7e6a8",
+    "scripts/measure.py": "ae1b32b00329e370f3a05036a839090e70d83dd251af3935cf0b59a778752f8b"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "base": {
+    "rows": 8,
+    "source_groups": 4,
+    "correct_verdicts": 7,
+    "parsed": 8,
+    "token_caps": 0,
+    "mean_output_tokens": 106.125
+  },
+  "adapted": {
+    "rows": 8,
+    "source_groups": 4,
+    "correct_verdicts": 7,
+    "parsed": 7,
+    "token_caps": 1,
+    "mean_output_tokens": 67.125
+  },
+  "paired_changes": {
+    "improved": [],
+    "regressed": []
+  }
+}

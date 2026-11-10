@@ -4,7 +4,7 @@ Updated November 10, 2026 (America/Vancouver).
 
 ## Current state
 
-Local Qwen3-4B MLX inference and ten-step QLoRA capacity tests passed. Writing-v1 contains 36 authored paragraph drafts across 18 fictional evidence dossiers, with matched neutral/warm feedback. Training has 20 independent passages expanded to 120 context variants per tone. The latest local suite has 24 passing tests; CI configuration covers tests and syntax. The v1 validation smoke produced 12 correct final verdicts; this does not establish feedback quality. No v1 training has run.
+Local Qwen3-4B MLX inference and ten-step QLoRA capacity tests passed. Writing-v1 contains 36 authored paragraph drafts across 18 fictional evidence dossiers, with matched neutral/warm feedback. Training has 20 independent passages expanded to 120 context variants per tone. The latest local suite has 24 passing tests; CI configuration covers tests and syntax. The v1 validation smoke produced 12 correct final verdicts; this does not establish feedback quality. The `fine-tuning` branch now includes a 20-update neutral writing-feedback pilot; see the branch update below.
 
 User calibration is saved locally under `private/writing-v1-review/calibration-round-*.json`, with ratings in the review CSV where applicable. Private writing samples and calibration records remain excluded from Git. Warmth and user preference must stay separate: calibration showed they can diverge. Additional candidates are not yet integrated into dataset targets.
 
@@ -94,3 +94,11 @@ The typed critique engine, strict quote validation, provider interface, local ML
 Obtain independent human review of diagnoses and benchmark task definitions. The reserved test was consumed: 4/8 verdict matches after 10/10 development matches. Create new held-out source groups before further tuning. Do not present this release as a reliable autonomous critic.
 
 Project: `/Users/yash/Desktop/writing-FTM`. GitHub: https://github.com/YashVG/writing-FTM (private).
+
+## Fine-tuning branch update — November 10
+
+Prepared 20 neutral training passages and eight source-disjoint validation passages. The 20-update QLoRA run completed in 30.13 seconds at 3.24 GB peak MLX allocation with no sampled swap growth. Validation loss fell from 5.868 to 2.374. Reloaded-adapter verdict accuracy remained 7/8, with one repetitive token-capped output and no parsed verdict. The adapter is local at `runs/finetuning/pilot-v1/adapters`; it is not integrated into the JSON engine. See [pilot evidence and next decision](results/finetuning-pilot-v1/REPORT.md). Warmth training and preference optimization remain unrun.
+
+## Repetition repair — November 10
+
+The template audit found empty thinking blocks inserted by the quantized snapshot during SFT. Official Instruct formatting alone did not resolve loops. With that formatting and learning rate 2e-6, seeds 42 and 43 each produced 8/8 parseable verdicts, zero repetition/cap failures, and unchanged 7/8 accuracy. Preparation defaults now use that template/rate with the same 20-update cap. The selected local adapter is `runs/finetuning/conservative-repair/adapters`. See [repair report and gate](results/repetition-repair/REPORT.md). The museum diagnosis is still wrong; do not infer semantic improvement or start a larger run based on loss alone.

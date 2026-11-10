@@ -1,0 +1,53 @@
+{
+  "baseline": {
+    "name": "baseline",
+    "command": [
+      ".venv/bin/python",
+      "scripts/evaluate.py",
+      "--dataset",
+      "data/finetuning-pilot-v1/evaluation.jsonl",
+      "--output",
+      "runs/finetuning/pilot-v1/base"
+    ],
+    "exit_code": 0,
+    "wall_seconds": 21.121062833000906,
+    "peak_process_rss_gib": 0.6137237548828125,
+    "min_system_available_gib": 3.5117034912109375,
+    "system_swap_growth_gib": 0.0,
+    "stop_reason": null
+  },
+  "train": {
+    "name": "train",
+    "command": [
+      ".venv/bin/python",
+      "scripts/train_pilot.py",
+      "--config",
+      "runs/finetuning/pilot-v1/config.yaml"
+    ],
+    "exit_code": 0,
+    "wall_seconds": 30.134833707939833,
+    "peak_process_rss_gib": 2.0247039794921875,
+    "min_system_available_gib": 2.7440185546875,
+    "system_swap_growth_gib": 0.0,
+    "stop_reason": null
+  },
+  "adapted": {
+    "name": "adapted",
+    "command": [
+      ".venv/bin/python",
+      "scripts/evaluate.py",
+      "--dataset",
+      "data/finetuning-pilot-v1/evaluation.jsonl",
+      "--adapter",
+      "runs/finetuning/pilot-v1/adapters",
+      "--output",
+      "runs/finetuning/pilot-v1/adapted"
+    ],
+    "exit_code": 0,
+    "wall_seconds": 17.08606950007379,
+    "peak_process_rss_gib": 1.927490234375,
+    "min_system_available_gib": 3.159515380859375,
+    "system_swap_growth_gib": 0.0,
+    "stop_reason": null
+  }
+}

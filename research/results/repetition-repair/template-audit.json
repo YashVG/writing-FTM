@@ -1,0 +1,8 @@
+{
+  "rows": 28,
+  "old_empty_thinking_targets": 28,
+  "new_empty_thinking_targets": 0,
+  "prefixes_equal": true,
+  "eos_supervised": true,
+  "max_tokens": 252
+}

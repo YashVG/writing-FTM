@@ -1,6 +1,7 @@
 """Local generation + conservative answer scoring; warmth needs human labels."""
 import argparse, csv, hashlib, json, re, os, tempfile
 from pathlib import Path
+from generation_quality import repetition_metrics
 
 def read(p):return [json.loads(s) for s in Path(p).read_text().splitlines() if s.strip()]
 def score(text, expected, wrong):
@@ -98,14 +99,16 @@ def write_review(out, responses):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--dataset',default='data/study-v0/smoke.jsonl');p.add_argument('--output',required=True)
+    p.add_argument('--model-info',default='runs/pilot/model.json')
     p.add_argument('--adapter');p.add_argument('--max-tokens',type=int,default=256);p.add_argument('--limit',type=int);p.add_argument('--warm-prompt',action='store_true');a=p.parse_args()
     import mlx.core as mx
     from mlx_lm import load,stream_generate
     from mlx_lm.sample_utils import make_sampler
     import time
     out=Path(a.output);out.mkdir(parents=True,exist_ok=True)
-    modelinfo=json.loads(Path('runs/pilot/model.json').read_text())
+    modelinfo=json.loads(Path(a.model_info).read_text())
     manifest={'model':modelinfo['model'],'revision':modelinfo['revision'],'dataset_sha256':hashlib.sha256(Path(a.dataset).read_bytes()).hexdigest(),'adapter':a.adapter,'max_tokens':a.max_tokens,'temperature':0,'warm_prompt':a.warm_prompt,'limit':a.limit}
+    manifest['template_override'] = modelinfo.get('template')
     if a.adapter:
         manifest['adapter_sha256']=hashlib.sha256((Path(a.adapter)/'adapters.safetensors').read_bytes()).hexdigest()
     mp=out/'manifest.json'
@@ -124,13 +127,14 @@ def main():
             chunks=[];start=time.monotonic()
             for last in stream_generate(model,tok,prompt=prompt,max_tokens=a.max_tokens,sampler=make_sampler(temp=0)):chunks.append(last.text)
             text=''.join(chunks)
-            record={**r,'text':text,'score':score(text,r['answer'],r['wrong']), 'tokens':last.generation_tokens,'hit_token_cap':last.generation_tokens>=a.max_tokens,'seconds':time.monotonic()-start,'mlx_peak_gb':last.peak_memory}
+            record={**r,**repetition_metrics(text),'text':text,'score':score(text,r['answer'],r['wrong']), 'tokens':last.generation_tokens,'hit_token_cap':last.generation_tokens>=a.max_tokens,'seconds':time.monotonic()-start,'mlx_peak_gb':last.peak_memory}
             f.write(json.dumps(record)+'\n');f.flush();existing.append(record)
             print(f"{len(existing)}/{len(rows)} {r['id']} parsed={record['score']['parsed']} correct={record['score']['correct']}",flush=True)
     # Re-score cached responses too; old runs may contain invalid verdicts.
     for row in existing:
         row['score'] = score(row['text'], row['answer'], row['wrong'])
     result=summarize(existing)
+    result['generation_quality'] = {'token_caps':sum(r['hit_token_cap'] for r in existing), 'repetition_flags':sum(repetition_metrics(r['text'])['repetition_flag'] for r in existing)}
     if existing and existing[0].get('task')=='writing_feedback':
         result['writing_verdicts']={}
         for status in ('flawed','sound'):

@@ -1,0 +1,15 @@
+{
+  "name": "train",
+  "command": [
+    ".venv/bin/python",
+    "scripts/train_pilot.py",
+    "--config",
+    "runs/finetuning/template-repair/config.yaml"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 29.13779337494634,
+  "peak_process_rss_gib": 1.0594635009765625,
+  "min_system_available_gib": 2.165008544921875,
+  "system_swap_growth_gib": 0.17083740234375,
+  "stop_reason": null
+}
