@@ -47,6 +47,17 @@ The original model approved a causal claim supported only by an observational as
 
 Development covered five source groups; reserved evaluation covered four. Invalid outputs count as failures. Some correct verdicts still contained invented details in their explanations. The [case study](research/results/diagnosis-study.md) includes full outputs, failure analysis, manifests, and reproduction details.
 
+## Background companion (Rust)
+
+The `background-widget` branch adds a floating macOS companion. Clicking it opens an overlay with on-demand screen capture, local OCR, editable context, and feedback from the local model. It does not continuously watch the screen.
+
+```sh
+./scripts/build_widget.sh
+open "runs/widget/Writing FTM.app"
+```
+
+Grant Screen Recording access when prompted, or paste text without screen access. The interface and capture/OCR integration are Rust; the existing Python/MLX engine provides inference. See the [widget guide](widget/README.md) for setup, controls, and privacy behavior.
+
 ## Try it
 
 For a model-free demo, use Python 3.12+ from the repository root:

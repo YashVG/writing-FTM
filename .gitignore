@@ -9,3 +9,5 @@ configs/pilot-*.yaml
 .env.*
 *.safetensors
 private/
+
+widget/target/
