@@ -1,0 +1,11 @@
+{
+  "evidence_standard": {
+    "n": 8,
+    "source_groups": 4,
+    "correct": 4,
+    "errors": 1,
+    "false_reassurance": 2,
+    "unnecessary_revision": 1,
+    "median_seconds": 5.584282687457744
+  }
+}

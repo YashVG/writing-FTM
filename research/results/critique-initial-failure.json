@@ -1,0 +1,33 @@
+{
+  "event_version": 1,
+  "action": "assess",
+  "critique": {
+    "schema_version": 1,
+    "verdict": "retain",
+    "rationale": "The passage states that 'workshop attendance was associated with higher confidence' in the fictional survey, and participants chose whether to attend. This aligns with the provided source, which confirms a reported association without asserting causation. No evidence errors are present; the claim is consistent with the source context.",
+    "evidence": [
+      {
+        "source_id": "demo",
+        "quote": "workshop attendance was associated with higher confidence",
+        "start": 26,
+        "end": 83
+      }
+    ],
+    "issues": []
+  },
+  "previous": null,
+  "reason": null,
+  "input_sha256": "201096d4e3bdc23dd80245f8db130f2f563ae7fe6fec0efa0190592073e764e1",
+  "prompt_sha256": "d36c47259b3880c8fa65336f9b841b0f0e692262b59cd1495f66460d52a87f59",
+  "provider": {
+    "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+    "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+    "temperature": 0,
+    "max_tokens": 1024,
+    "backend": "mlx"
+  },
+  "seconds": 4.779929250013083,
+  "raw_response": "{\"schema_version\":1,\"verdict\":\"retain\",\"rationale\":\"The passage states that 'workshop attendance was associated with higher confidence' in the fictional survey, and participants chose whether to attend. This aligns with the provided source, which confirms a reported association without asserting causation. No evidence errors are present; the claim is consistent with the source context.\",\"evidence\":[{\"source_id\":\"demo\",\"quote\":\"workshop attendance was associated with higher confidence\"}],\"issues\":[]}",
+  "validation": "structure_and_literal_quotes_only",
+  "human_review_required": true
+}

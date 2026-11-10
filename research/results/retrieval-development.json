@@ -1,0 +1,120 @@
+{
+  "scope": "development; document-level retrieval; no feedback targets indexed",
+  "documents": 6,
+  "queries": 10,
+  "source_groups": 5,
+  "mean_recall_at_1": 1.0,
+  "mean_recall_at_3": 1.0,
+  "rows": [
+    {
+      "id": "sleep-flawed",
+      "group": "sleep",
+      "ranked_ids": [
+        "sleep",
+        "museum",
+        "comparison"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    },
+    {
+      "id": "sleep-sound",
+      "group": "sleep",
+      "ranked_ids": [
+        "sleep",
+        "demo",
+        "comparison"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    },
+    {
+      "id": "museum-flawed",
+      "group": "museum",
+      "ranked_ids": [
+        "museum",
+        "demo",
+        "comparison"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    },
+    {
+      "id": "museum-sound",
+      "group": "museum",
+      "ranked_ids": [
+        "museum",
+        "sleep",
+        "comparison"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    },
+    {
+      "id": "training-flawed",
+      "group": "training",
+      "ranked_ids": [
+        "training",
+        "demo",
+        "sleep"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    },
+    {
+      "id": "training-sound",
+      "group": "training",
+      "ranked_ids": [
+        "training",
+        "sleep",
+        "demo"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    },
+    {
+      "id": "comparison-flawed",
+      "group": "comparison",
+      "ranked_ids": [
+        "comparison",
+        "demo",
+        "training"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    },
+    {
+      "id": "comparison-sound",
+      "group": "comparison",
+      "ranked_ids": [
+        "comparison",
+        "training",
+        "sleep"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    },
+    {
+      "id": "workshop-flawed",
+      "group": "workshop",
+      "ranked_ids": [
+        "demo",
+        "training",
+        "comparison"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    },
+    {
+      "id": "workshop-sound",
+      "group": "workshop",
+      "ranked_ids": [
+        "demo",
+        "sleep",
+        "comparison"
+      ],
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "sleep-flawed",
+    "group": "sleep",
+    "passage": "The survey demonstrates that sleeping longer improves concentration. Because the two measures were associated, it establishes a causal explanation for differences among the students.",
+    "sources": {
+      "sleep": "A survey of 120 students measured reported sleep and reported concentration at one time point. More sleep was associated with better concentration. The researchers did not assign sleep schedules or measure prior health."
+    },
+    "expected": "revise"
+  },
+  {
+    "id": "sleep-sound",
+    "group": "sleep",
+    "passage": "The survey found an association between reported sleep and concentration. Its one-time observational design cannot establish whether sleeping longer caused the concentration differences.",
+    "sources": {
+      "sleep": "A survey of 120 students measured reported sleep and reported concentration at one time point. More sleep was associated with better concentration. The researchers did not assign sleep schedules or measure prior health."
+    },
+    "expected": "retain"
+  },
+  {
+    "id": "museum-flawed",
+    "group": "museum",
+    "passage": "The interviews establish that most people in the region like the museum\u2019s audio guide. Twenty positive responses are enough to generalize the preference beyond exhibition visitors.",
+    "sources": {
+      "museum": "A museum interviewed 28 visitors leaving a weekend exhibition. Twenty liked the audio guide. People who did not visit, weekday visitors and visitors who left early were not sampled."
+    },
+    "expected": "revise"
+  },
+  {
+    "id": "museum-sound",
+    "group": "museum",
+    "passage": "Most of the interviewed weekend visitors liked the audio guide. The sample does not establish regional preferences because non-visitors and other visitor groups were not included.",
+    "sources": {
+      "museum": "A museum interviewed 28 visitors leaving a weekend exhibition. Twenty liked the audio guide. People who did not visit, weekday visitors and visitors who left early were not sampled."
+    },
+    "expected": "retain"
+  },
+  {
+    "id": "training-flawed",
+    "group": "training",
+    "passage": "The tutorial improved participants\u2019 practical skills. Increased confidence immediately afterward shows that they can perform the workplace tasks more accurately.",
+    "sources": {
+      "training": "An online training study measured participants\u2019 confidence immediately after a tutorial. Confidence increased. The study did not administer a skills test or observe later workplace performance."
+    },
+    "expected": "revise"
+  },
+  {
+    "id": "training-sound",
+    "group": "training",
+    "passage": "The tutorial was followed by increased self-reported confidence. Because no skills test or workplace observation was included, the study does not show whether practical performance improved.",
+    "sources": {
+      "training": "An online training study measured participants\u2019 confidence immediately after a tutorial. Confidence increased. The study did not administer a skills test or observe later workplace performance."
+    },
+    "expected": "retain"
+  },
+  {
+    "id": "comparison-flawed",
+    "group": "comparison",
+    "passage": "The reading interventions are proven to have identical effects. The uncertain difference confirms that choosing either intervention produces the same learning outcome.",
+    "sources": {
+      "comparison": "Two reading interventions had an estimated score difference of 1 point, with a confidence interval from -5 to 7. The authors did not conduct an equivalence test."
+    },
+    "expected": "revise"
+  },
+  {
+    "id": "comparison-sound",
+    "group": "comparison",
+    "passage": "The estimated difference between the reading interventions is uncertain. Without an equivalence test and with an interval from -5 to 7, the evidence does not establish identical effects.",
+    "sources": {
+      "comparison": "Two reading interventions had an estimated score difference of 1 point, with a confidence interval from -5 to 7. The authors did not conduct an equivalence test."
+    },
+    "expected": "retain"
+  },
+  {
+    "id": "workshop-flawed",
+    "group": "workshop",
+    "passage": "The workshop caused higher confidence.",
+    "sources": {
+      "demo": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend."
+    },
+    "expected": "revise"
+  },
+  {
+    "id": "workshop-sound",
+    "group": "workshop",
+    "passage": "Workshop attendance was associated with higher confidence; this survey does not establish causation.",
+    "sources": {
+      "demo": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend."
+    },
+    "expected": "retain"
+  }
+]

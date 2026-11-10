@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "writing-ftm"
+version = "0.1.0"
+description = "Local evidence-grounded writing critique with auditable evaluation"
+requires-python = ">=3.12"
+
+[tool.setuptools.packages.find]
+include = ["writing_ftm*"]

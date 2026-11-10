@@ -1,0 +1,20 @@
+{
+  "original": {
+    "n": 10,
+    "source_groups": 5,
+    "correct": 8,
+    "errors": 0,
+    "false_reassurance": 2,
+    "unnecessary_revision": 0,
+    "median_seconds": 4.820746666984633
+  },
+  "evidence_standard": {
+    "n": 10,
+    "source_groups": 5,
+    "correct": 10,
+    "errors": 0,
+    "false_reassurance": 0,
+    "unnecessary_revision": 0,
+    "median_seconds": 5.190619917004369
+  }
+}

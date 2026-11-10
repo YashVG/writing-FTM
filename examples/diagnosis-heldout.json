@@ -1,0 +1,74 @@
+[
+  {
+    "id": "gardens-flawed",
+    "group": "gardens",
+    "passage": "Community-garden visits reduce stress, as demonstrated by the survey. The association provides sufficient evidence that encouraging more visits will cause residents\u2019 stress levels to fall.",
+    "sources": {
+      "gardens": "A neighborhood survey found that residents who visited community gardens more often reported less stress. Visits were voluntary. Income and access to green space were not controlled."
+    },
+    "expected": "revise"
+  },
+  {
+    "id": "gardens-sound",
+    "group": "gardens",
+    "passage": "Frequent community-garden visits were associated with lower reported stress. Because visits were voluntary and potential confounders were not controlled, the survey does not establish a causal effect.",
+    "sources": {
+      "gardens": "A neighborhood survey found that residents who visited community gardens more often reported less stress. Visits were voluntary. Income and access to green space were not controlled."
+    },
+    "expected": "retain"
+  },
+  {
+    "id": "archive-flawed",
+    "group": "archive",
+    "passage": "The study contains 120 independent observations because it codes 120 letters. This independence follows from each letter being a separate document, even when several letters have the same author.",
+    "sources": {
+      "archive": "An archive study codes ten letters from each of 12 writers. Letters by the same writer share personal background and may discuss the same events. The current analysis treats every letter as independent."
+    },
+    "expected": "revise"
+  },
+  {
+    "id": "archive-sound",
+    "group": "archive",
+    "passage": "The study codes 120 letters from 12 writers. Separate documents are not necessarily independent observations, so the analysis should account for similarities among letters by the same writer.",
+    "sources": {
+      "archive": "An archive study codes ten letters from each of 12 writers. Letters by the same writer share personal background and may discuss the same events. The current analysis treats every letter as independent."
+    },
+    "expected": "retain"
+  },
+  {
+    "id": "campaign-flawed",
+    "group": "campaign",
+    "passage": "The revised campaign increased recycling behavior. Higher credibility ratings show that participants changed what they put in their recycling bins.",
+    "sources": {
+      "campaign": "A randomized message experiment measured how credible participants found a recycling campaign. Credibility ratings increased under the revised message. Actual recycling behavior was not measured."
+    },
+    "expected": "revise"
+  },
+  {
+    "id": "campaign-sound",
+    "group": "campaign",
+    "passage": "The revised campaign increased perceived credibility in the experiment. The study did not measure recycling behavior, so the effect on actual recycling remains unknown.",
+    "sources": {
+      "campaign": "A randomized message experiment measured how credible participants found a recycling campaign. Credibility ratings increased under the revised message. Actual recycling behavior was not measured."
+    },
+    "expected": "retain"
+  },
+  {
+    "id": "translation-flawed",
+    "group": "translation",
+    "passage": "The proposed comparison is entirely new to translation research. Since the selected journal issues contain no such comparison, no previous researcher has investigated these workflows.",
+    "sources": {
+      "translation": "A student searched one journal\u2019s last three issues and found no comparison of two translation workflows. Other journals, earlier issues and conference proceedings were not searched."
+    },
+    "expected": "revise"
+  },
+  {
+    "id": "translation-sound",
+    "group": "translation",
+    "passage": "The selected journal issues did not contain a comparison of these workflows. This limited search identifies a possible research direction but does not establish novelty across translation research.",
+    "sources": {
+      "translation": "A student searched one journal\u2019s last three issues and found no comparison of two translation workflows. Other journals, earlier issues and conference proceedings were not searched."
+    },
+    "expected": "retain"
+  }
+]

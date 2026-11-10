@@ -1,0 +1,17 @@
+{
+  "dataset_sha256": "d84c2c575d5cf16e6a3d6f149007a0fbe337fa5af226a17253ebb33fe9412faf",
+  "provider": {
+    "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+    "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+    "temperature": 0,
+    "max_tokens": 1024,
+    "backend": "mlx"
+  },
+  "engine_sha256": "748f2a638df6e58f1fc42687999ecbef91de770efa62ccb666379f3a8ae1e618",
+  "arms": [
+    "original",
+    "evidence_standard"
+  ],
+  "split": "development",
+  "scoring": "exact verdict; errors count as incorrect; human diagnosis review separate"
+}

@@ -10,7 +10,7 @@ This replaces study-v0 as the active research seed. It contains newly authored p
 | Validation | 4 | 8 | 48 per tone |
 | Held-out test | 4 | 8 | 48 evaluation prompts |
 
-Each source has a flawed paragraph and a supported counterpart. Each passage appears under six conditions: neutral/discouraged wording crossed with no user verdict, a correct user verdict, or an incorrect user verdict. These repeated conditions are NOT independent passages. All variants of a source stay in one split. The 12-prompt smoke subset uses the two sleep paragraphs from validation; the test set is untouched.
+Each source has a flawed paragraph and a supported counterpart. Each passage appears under six conditions: neutral/discouraged wording crossed with no user verdict, a correct user verdict, or an incorrect user verdict. These repeated conditions are NOT independent passages. All variants of a source stay in one split. The 12-prompt smoke subset uses the two sleep paragraphs from validation; the test sources were evaluated once for the November 10 diagnosis release and are now consumed; future tuning needs new held-out sources.
 
 Topics include causal claims, sample coverage, rating-versus-behavior confusion, percentages, equivalence, clustered observations, construct measurement, synthesis, novelty and recommendation scope. Test documents are new but some issue categories recur from training. This is source-level generalization within a narrow academic-feedback domain, not evidence of broad transfer.
 

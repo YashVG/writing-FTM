@@ -1,70 +1,61 @@
 # Writing-FTM
 
-Research project investigating whether warmth training changes factual accuracy and agreement with incorrect user beliefs.
+A local AI engineering case study in evidence-grounded writing feedback: diagnose unsupported claims, cite exact source spans, and adjust presentation without rewriting the criticism.
 
-## Current scope
+**Result:** an explicit evidence-support rule fixed a causal-claim failure and improved development verdict accuracy from **8/10 to 10/10**. The frozen prompt then scored **4/8 on reserved passages**. The project documents why the local fix did not generalize reliably. It is an evaluated research prototype, not an autonomous grading system.
 
-The first pilot measures local inference and QLoRA training capacity on an M3 Pro with 18 GB unified memory. Synthetic fixtures exercise the pipeline; they cannot establish a warmth or safety effect. The controlled study is described in [research/pilot-plan.md](research/pilot-plan.md). Earlier literature notes remain in `research/`.
+[Read the study and failures](research/results/diagnosis-study.md) · [Architecture](research/architecture.md) · [Demo walkthrough](research/demo-guide.md)
 
-## Measured result
+## Try it without a model
 
-The pilot passed. Base inference ran at 54–55 tokens/s. Ten QLoRA updates took 29 seconds at 512 tokens and 49 seconds at 1,024 tokens. The latter peaked at 4.02 GB of MLX allocation. Each training run coincided with about 0.43–0.44 GiB of system swap growth. Start with batch 1 and 1,024 tokens; larger settings remain untested. See [full measurements](runs/pilot/RESULTS.md).
+Python 3.12+; run from the repository root. No third-party dependencies are needed for tests or fixture mode.
 
-## Environment
+```sh
+python3 -m unittest discover -s tests -v
+python3 -m writing_ftm.demo
+```
 
-Python 3.12 in `.venv`. Exact installed dependencies are pinned in `requirements.lock`.
+Open http://127.0.0.1:8765. Click **Review evidence**, change framing/order, inspect citations, and save feedback. This mode is explicitly labeled **fixture replay**. It refuses edited inputs rather than pretending to run a model. Stop with Ctrl-C.
+
+## Run locally on Apple Silicon
+
+The measured environment is an M3 Pro with 18 GB unified memory. Base inference reached 54–55 tokens/s; ten QLoRA updates at 1,024 tokens took 49 seconds with 4.02 GB peak MLX allocation. Those are synthetic capacity measurements, not essay-model training results. [Measurements and limitations](research/results/mac-capacity.md).
 
 ```sh
 uv venv --python 3.12 --python-preference only-managed .venv
 uv pip sync --python .venv/bin/python requirements.lock
+.venv/bin/python scripts/download_model.py
+.venv/bin/python -m writing_ftm.demo --live
 ```
 
-The model is `mlx-community/Qwen3-4B-Instruct-2507-4bit`, downloaded to the standard Hugging Face cache. Its resolved revision is recorded in `runs/pilot/model.json`. No credentials or paid service are required.
+The downloader pins `mlx-community/Qwen3-4B-Instruct-2507-4bit` to revision `50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b`. Live mode supports edited passages and evidence disputes. It is a single-user loopback server; keep it local. No paid API is used.
 
-## Pilot
-
-From this directory, a fresh run is:
+CLI alternative, with optional lexical evidence retrieval:
 
 ```sh
-./scripts/run_pilot.sh
+.venv/bin/python -m writing_ftm --input examples/critique-request.json --retrieve-k 1 --output runs/my-critique.json
 ```
 
-The script refuses to overwrite existing training results. Archive `runs/pilot/` before a new run. It downloads the model, creates synthetic fixtures, runs inference, trains two ten-step adapters, and reloads the 1,024-token adapter. Configurations are in `configs/`; logs, response samples and measured memory/time are in `runs/pilot/`. Adapters are local and excluded from Git.
+Choose a new output path for each run. Event records include source spans, model/prompt provenance, and a human-review-required flag.
 
-`measure.py` terminates a run on sustained low available memory, substantial swap growth, or a 20-minute timeout. Measurements include process RSS and system headroom; MLX reports accelerator allocation separately. Do not add these memory values together.
-
-## Verification
-
-Successful runs have exit code zero in each measurement JSON, finite training and validation losses in the logs, and generated responses in `adapted-responses.json`. Ten updates validate execution and adapter serialization, not model quality. The model may hit the 128-token output cap.
-
-Use a held-out, independently audited dataset and multiple seeds for the research study. Do not use the pilot fixtures as a research evaluation.
-
-## Dataset and evaluation v0
-
-Six synthetic matched-tone cells now contain 96 training and 24 validation rows each. Evaluation contains 48 held-out cases in six conditions (288 prompts). These are template-based development data with exact canonical answers, not a validated warmth benchmark. Read [the dataset card](data/study-v0/DATASET_CARD.md) and [evaluation protocol](research/evaluation-protocol.md) before interpreting results.
+## Reproduce the evaluation
 
 ```sh
-.venv/bin/python scripts/build_dataset.py
-.venv/bin/python scripts/audit_dataset.py
-.venv/bin/python -m unittest discover -s tests -v
-.venv/bin/python scripts/evaluate.py --output runs/study-v0/base-smoke
+.venv/bin/python -m scripts.benchmark_critique --output runs/my-development
+.venv/bin/python -m scripts.benchmark_critique --dataset examples/diagnosis-heldout.json --arms evidence_standard --split heldout --output runs/my-heldout
+python3 -m scripts.benchmark_retrieval
 ```
 
-The evaluation defaults to a 24-prompt smoke subset. Use `--dataset data/study-v0/heldout.jsonl` for the reserved 44-case set, `--warm-prompt` for the prompt baseline, or `--adapter PATH` for a trained adapter; give each configuration a separate output directory. Model download metadata from `scripts/download_model.py` is required. Responses, parsing coverage, paired flip counts and blank human-review sheets are saved locally. Human ratings are pending. Reserve smoke case IDs for development after inspecting them.
+The runner refuses an existing directory. Model outputs, manifests, summaries, input datasets, and source snapshots for the reported runs are committed under `research/results/`. Development uses ten passages from five source groups; reserved evaluation uses eight passages from four groups. Labels never enter model prompts. Reserved sources are now consumed, so future experiments need new holdouts.
 
-Study configurations in `configs/study-v0/` are drafts for equal-example runs, not matched-token experiments. No study-v0 models have been trained. Before using them, pass `--model` with the pinned local snapshot recorded by the downloader. Logs, adapters, environments and machine-specific pilot configs are excluded from Git.
+## What is implemented
 
-## Active writing dataset: v1
+- A reusable Python critique engine, local MLX provider, CLI, and browser demo.
+- Strict records with issue, evidence, severity, uncertainty, and recommended correction; malformed or ungrounded quotes fail validation.
+- A lexical evidence-retrieval baseline with document-level measurements.
+- Fixed framing and ordering controls that preserve substantive fields; local feedback and dispute logs.
+- Annotation-preserving evaluation reruns, regression tests, and dependency-free CI checks.
 
-[Writing-v1](data/writing-v1/DATASET_CARD.md) supersedes v0 as the research seed: 36 newly authored paragraph drafts across 18 fictional evidence dossiers, with matched neutral/warm feedback. Training has 20 distinct passages (120 context variants per tone); validation and held-out test each have eight passages. Your private samples guided the task design and register but are not copied into the repository.
+Exact quotes do not prove entailment. Correct verdicts do not prove factual explanations. Warmth has not been independently validated. The demo's controls are constrained presentation, not generative style transfer. Style-example retrieval, free-form rewrite verification, and writing-v1 fine-tuning remain future work.
 
-```sh
-.venv/bin/python scripts/build_writing_dataset.py
-.venv/bin/python scripts/audit_writing_dataset.py
-.venv/bin/python -m unittest discover -s tests -v
-.venv/bin/python scripts/evaluate.py --dataset data/writing-v1/smoke.jsonl --output runs/writing-v1/base-smoke
-```
-
-Optional local overlap audit: add `--reference-dir` with the private document directory to the audit command. It stores only local provenance and counts under ignored `private/`. The build generates a shuffled, unlabeled feedback-review sheet there. The builder refuses to overwrite a sheet containing ratings or notes; archive that sheet and its key before rebuilding.
-
-Training configurations are in `configs/writing-v1/`; no v1 training has run. Warmth labels need human calibration. See the [evaluation protocol](research/writing-v1-evaluation.md); the automatic score checks only the final evidence verdict.
+All benchmark passages are fictional and AI-authored. Private writing samples, ratings, models, and runtime logs are excluded from Git. This is a solo, AI-assisted project; it does not establish team experience or independent replication. See the [dataset card](data/writing-v1/DATASET_CARD.md), [retrospective](research/retrospective.md), and [remaining research roadmap](research/HANDOFF.md).
