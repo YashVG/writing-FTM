@@ -49,7 +49,7 @@ Development covered five source groups; reserved evaluation covered four. Invali
 
 ## Background companion (Rust)
 
-The `background-widget` branch adds a floating macOS companion. Clicking it opens an overlay with on-demand screen capture, local OCR, editable context, and feedback from the local model. It does not continuously watch the screen.
+The `background-widget` branch adds a floating macOS companion. Clicking it opens an overlay with on-demand screen capture, local OCR, editable passages and source evidence, and structured critiques from the local model. Warmth and directness controls adjust framing and order while preserving the diagnosis and citations. It does not continuously watch the screen.
 
 ```sh
 ./scripts/build_widget.sh

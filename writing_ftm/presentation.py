@@ -11,6 +11,7 @@ def present(critique: Critique, warmth: str = 'neutral', directness: str = 'expl
         parts = [issue.diagnosis, issue.recommendation]
         if directness == 'action-first': parts.reverse()
         sections.append({'issue_id': issue.issue_id, 'text': '\n'.join(parts),
+                         'passage_quote': issue.passage_quote,
                          'severity': issue.severity, 'uncertainty': issue.uncertainty,
                          'evidence': [asdict(e) for e in issue.evidence]})
     return {'intro': "Let's work through the evidence together." if warmth == 'warm' else 'Evidence review',

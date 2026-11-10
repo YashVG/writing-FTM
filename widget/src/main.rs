@@ -21,7 +21,7 @@ struct Expansion {
 enum Event {
     Captured(u64),
     Capture(u64, Result<capture::Snapshot, String>),
-    Feedback(u64, Result<String, String>),
+    Feedback(u64, Result<worker::Feedback, String>),
 }
 
 struct Companion {
@@ -30,8 +30,10 @@ struct Companion {
     mascot: egui::TextureHandle,
     showing_feedback: bool,
     context: String,
-    task: String,
-    feedback: String,
+    source: String,
+    feedback: Option<worker::Feedback>,
+    warm: bool,
+    action_first: bool,
     status: String,
     preview: Option<egui::TextureHandle>,
     busy: bool,
@@ -62,9 +64,11 @@ impl Companion {
             mascot,
             showing_feedback: false,
             context: String::new(),
-            task: "Give me concise, actionable feedback on this work.".into(),
-            feedback: String::new(),
-            status: "Capture a screen or paste text to begin.".into(),
+            source: String::new(),
+            feedback: None,
+            warm: true,
+            action_first: false,
+            status: "Add a passage and its source evidence to begin.".into(),
             preview: None,
             busy: false,
             epoch: 0,
@@ -125,7 +129,7 @@ impl Companion {
         self.epoch += 1;
         let epoch = self.epoch;
         self.busy = true;
-        self.feedback.clear();
+        self.feedback = None;
         self.showing_feedback = false;
         self.context.clear();
         self.preview = None;
@@ -151,11 +155,15 @@ impl Companion {
             repaint.request_repaint();
         });
     }
+    fn invalidate_feedback(&mut self) {
+        self.feedback = None;
+        self.status = "Draft changed. Add source evidence, then request a fresh critique.".into();
+    }
     fn review(&mut self, ctx: &egui::Context) {
         self.epoch += 1;
         let epoch = self.epoch;
         self.busy = true;
-        self.feedback.clear();
+        self.feedback = None;
         self.status = "Thinking locally… the first request loads the model.".into();
         self.cancel = Arc::new(AtomicBool::new(false));
         let cancel = self.cancel.clone();
@@ -163,9 +171,9 @@ impl Companion {
         let repaint = ctx.clone();
         let root = self.root.clone();
         let context = self.context.clone();
-        let task = self.task.clone();
+        let source = self.source.clone();
         std::thread::spawn(move || {
-            let result = worker::feedback(&root, &context, &task, cancel);
+            let result = worker::feedback(&root, &context, &source, cancel);
             let _ = sender.send(Event::Feedback(epoch, result));
             repaint.request_repaint();
         });
@@ -201,10 +209,10 @@ impl Companion {
                     self.busy = false;
                     match result {
                         Ok(text) => {
-                            self.feedback = text;
+                            self.feedback = Some(text);
                             self.showing_feedback = true;
                             self.status =
-                                "Ready. Feedback uses the text shown below, not a live view."
+                                "Ready. Tone controls update instantly without rerunning the model."
                                     .into();
                         }
                         Err(error) => self.status = error,
@@ -307,12 +315,13 @@ impl eframe::App for Companion {
                         if ui.button("Hide").on_hover_text("Return to the companion").clicked() { self.expand(ctx, false); }
                         ui.menu_button("More", |ui| {
                             if ui.add_enabled(!self.busy, egui::Button::new("Try an example")).clicked() {
-                                self.context = "Draft: The workshop caused higher confidence.\nSource: Participants chose whether to attend. Attendance was associated with confidence in a one-time survey.".into();
-                                self.feedback.clear(); self.preview = None; self.showing_feedback = false;
+                                self.context = "The workshop caused higher confidence.".into();
+                                self.source = "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.".into();
+                                self.feedback = None; self.preview = None; self.showing_feedback = false;
                                 self.status = "Example loaded. This is not a screen capture.".into(); ui.close_menu();
                             }
                             if ui.button("Clear context and feedback").clicked() {
-                                self.cancel(); self.context.clear(); self.feedback.clear(); self.preview = None;
+                                self.cancel(); self.context.clear(); self.source.clear(); self.feedback = None; self.preview = None;
                                 self.showing_feedback = false; self.status = "Context cleared.".into(); ui.close_menu();
                             }
                             ui.separator();
@@ -322,13 +331,25 @@ impl eframe::App for Companion {
                 });
                 ui.add_space(20.);
                 ui.label(egui::RichText::new("A fresh pair of eyes.").size(27.));
-                ui.label(egui::RichText::new("Bring a passage. Get a little perspective.").color(MUTED));
+                ui.label(egui::RichText::new("Check your claims against the evidence.").color(MUTED));
                 ui.add_space(18.);
                 ui.horizontal(|ui| {
                     if ui.selectable_label(!self.showing_feedback, "Your draft").clicked() { self.showing_feedback = false; }
                     if ui.selectable_label(self.showing_feedback, "Feedback").clicked() { self.showing_feedback = true; }
                 });
-                ui.add_space(12.);
+                ui.add_space(6.);
+                ui.horizontal(|ui| {
+                    ui.label("Warmth");
+                    ui.selectable_value(&mut self.warm, false, "Neutral");
+                    ui.selectable_value(&mut self.warm, true, "Warm");
+                });
+                ui.horizontal(|ui| {
+                    ui.label("Directness");
+                    ui.selectable_value(&mut self.action_first, false, "Explain first");
+                    ui.selectable_value(&mut self.action_first, true, "Action first");
+                });
+                ui.label(egui::RichText::new("Changes framing and order. Keeps the criticism intact.").small().color(MUTED));
+                ui.add_space(6.);
                 // Reserve the bottom for the main action so it never gets lost
                 // below a long screenshot, draft, or response.
                 let body_height = (ui.available_height() - 126.).max(180.);
@@ -338,20 +359,42 @@ impl eframe::App for Companion {
                     if self.showing_feedback {
                         card().show(ui, |ui| {
                             ui.set_width(ui.available_width());
-                            if self.feedback.is_empty() {
+                            if let Some(feedback) = &self.feedback {
+                                let key = format!("{}/{}", if self.warm { "warm" } else { "neutral" },
+                                    if self.action_first { "action-first" } else { "explanation-first" });
+                                if let Some(view) = feedback.presentations.get(&key) {
+                                    ui.label(egui::RichText::new(&view.intro).size(20.).strong());
+                                    ui.label(egui::RichText::new(if view.verdict == "revise" { "Needs revision" } else { "Supported by supplied evidence" }).strong());
+                                    if !self.action_first || view.sections.is_empty() {
+                                        ui.add(egui::Label::new(&view.rationale).selectable(true).wrap());
+                                    }
+                                    for section in &view.sections {
+                                        ui.add_space(12.);
+                                        ui.separator();
+                                        ui.label(egui::RichText::new(format!("“{}”", section.passage_quote)).italics());
+                                        ui.label(egui::RichText::new(format!("{} issue · {} uncertainty", section.severity, section.uncertainty)).small().color(MUTED));
+                                        ui.add(egui::Label::new(&section.text).selectable(true).wrap());
+                                        egui::CollapsingHeader::new("Source evidence").id_salt(&section.issue_id).show(ui, |ui| {
+                                            evidence_ui(ui, &section.evidence);
+                                        });
+                                    }
+                                    if self.action_first && !view.sections.is_empty() {
+                                        ui.add_space(12.);
+                                        ui.add(egui::Label::new(&view.rationale).selectable(true).wrap());
+                                    }
+                                    egui::CollapsingHeader::new("Evidence for the overall assessment").show(ui, |ui| {
+                                        evidence_ui(ui, &view.evidence);
+                                    });
+                                    ui.add_space(12.);
+                                    if ui.button("Copy feedback").clicked() { ctx.copy_text(view.copy_text()); }
+                                    ui.label(egui::RichText::new("Quotes checked against supplied text; reasoning still needs your review.").small().color(MUTED));
+                                }
+                            } else {
                                 ui.add_space(24.);
                                 ui.label(egui::RichText::new(if self.busy { "Taking a closer look…" } else { "Room for a second thought." }).size(20.));
                                 ui.add_space(8.);
-                                ui.label(if self.busy { "Your local model is working. You can cancel below." } else { "Add your draft, then ask for feedback. Your notes will appear here." });
+                                ui.label(if self.busy { "Your local model is working. You can cancel below." } else { "Add a passage and source evidence, then ask for feedback." });
                                 ui.add_space(24.);
-                            } else {
-                                ui.label(egui::RichText::new("A few thoughts").size(20.).strong());
-                                ui.add_space(12.);
-                                ui.add(egui::Label::new(&self.feedback).selectable(true).wrap());
-                                ui.add_space(16.);
-                                if ui.button("Copy feedback").clicked() { ctx.copy_text(self.feedback.clone()); }
-                                ui.add_space(8.);
-                                ui.label(egui::RichText::new("A suggestion, not a verdict. Check important claims.").small().color(MUTED));
                             }
                         });
                     } else {
@@ -376,23 +419,25 @@ impl eframe::App for Companion {
                                 });
                             });
                             ui.add_space(8.);
-                            ui.add(egui::TextEdit::multiline(&mut self.context).font(egui::TextStyle::Body)
+                            let changed = ui.add_enabled(!self.busy, egui::TextEdit::multiline(&mut self.context).font(egui::TextStyle::Body)
                                 .frame(false).desired_rows(5).desired_width(f32::INFINITY)
-                                .hint_text("Paste something you're working on, or capture it from your screen…"));
+                                .hint_text("Paste your passage, or capture it from your screen…")).changed();
+                            if changed { self.invalidate_feedback(); }
                         });
                         ui.add_space(14.);
-                        ui.label(egui::RichText::new("What should I focus on?").strong());
-                        ui.add_space(4.);
-                        ui.add(egui::TextEdit::multiline(&mut self.task).font(egui::TextStyle::Body)
-                            .desired_rows(2).desired_width(f32::INFINITY));
-                        if self.task.chars().count() > 1000 {
-                            ui.colored_label(Color32::from_rgb(160, 55, 45), "Keep your request under 1,000 characters.");
-                        }
+                        ui.label(egui::RichText::new("Source evidence").strong());
+                        ui.label(egui::RichText::new("Paste the reference excerpt your passage relies on.").small().color(MUTED));
+                        let changed = ui.add_enabled(!self.busy, egui::TextEdit::multiline(&mut self.source).font(egui::TextStyle::Body)
+                            .hint_text("Study findings, methods, or other supporting evidence…")
+                            .desired_rows(4).desired_width(f32::INFINITY)).changed();
+                        if changed { self.invalidate_feedback(); }
+                        let count = self.source.chars().count();
+                        ui.label(egui::RichText::new(format!("{count} / 8,000 · source-1")).small().color(if count > 8000 { Color32::from_rgb(160, 55, 45) } else { MUTED }));
                     }
                 });
                 ui.add_space(12.);
                 let valid = !self.busy && !self.context.trim().is_empty() && self.context.chars().count() <= 8000
-                    && !self.task.trim().is_empty() && self.task.chars().count() <= 1000;
+                    && !self.source.trim().is_empty() && self.source.chars().count() <= 8000;
                 ui.horizontal(|ui| {
                     if self.busy {
                         ui.spinner();
@@ -427,6 +472,17 @@ const PAPER: Color32 = Color32::from_rgb(245, 244, 239);
 const INK: Color32 = Color32::from_rgb(43, 45, 44);
 const MUTED: Color32 = Color32::from_rgb(100, 105, 100);
 const BORDER: Color32 = Color32::from_rgb(222, 222, 214);
+
+fn evidence_ui(ui: &mut egui::Ui, evidence: &[worker::Evidence]) {
+    for item in evidence {
+        ui.label(egui::RichText::new(&item.source_id).small().color(MUTED));
+        ui.add(
+            egui::Label::new(format!("“{}”", item.quote))
+                .selectable(true)
+                .wrap(),
+        );
+    }
+}
 
 fn card() -> egui::Frame {
     egui::Frame::new()

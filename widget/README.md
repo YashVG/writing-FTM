@@ -20,9 +20,11 @@ A stable certificate keeps macOS's permission identity consistent across builds.
 - Click the companion to open the overlay; drag it to move it. Drag the overlay title to move the expanded window.
 - **Choose an area** opens macOS's region selector. Drag around your work; Escape cancels. The overlay hides during selection and returns before OCR starts, with a reading-text status. An unattended selector times out after 90 seconds.
 - **Capture screen** takes a snapshot of the main display. The overlay hides before capture so it does not read itself.
-- Open **Captured screen** to inspect the preview and review the editable OCR text in **Your draft**. Fix OCR mistakes or paste text directly. Enter a request and click **Give feedback**. Completed suggestions open in the **Feedback** tab; switch back to **Your draft** to revise your input.
+- Open **Captured screen** to inspect the preview and review the editable OCR text in **Your draft**. Fix OCR mistakes or paste text directly. Paste the reference excerpt into **Source evidence**, then click **Give feedback**. Both fields are required. Completed critiques open in the **Feedback** tab; switch back to **Your draft** to revise your input.
+- **Warmth → Neutral / Warm** changes the introduction. **Directness → Explain first / Action first** changes the order of diagnosis and correction; Action first also moves the overall explanation below the issues. These controls use cached views, so changes are instant and do not rerun the model. Verdicts, criticism, and evidence remain unchanged.
+- Feedback shows the affected passage, severity, uncertainty, and expandable source quotes. Editing either input clears the previous critique.
 - **Cancel** stops local generation. **More → Clear context and feedback** clears the session. **Hide** returns to the floating companion. Right-click the companion or use **More → Quit Writing FTM** to exit.
-- **More → Try an example** inserts a clearly labeled synthetic passage; it does not capture your screen.
+- **More → Try an example** inserts a synthetic passage and source; it does not capture your screen.
 
 For capture, enable **Writing FTM** under System Settings → Privacy & Security → Screen Recording (called Screen & System Audio Recording on some macOS versions), then quit and reopen if prompted. When migrating from an old ad-hoc build, remove only the old Writing FTM entry and add the newly signed bundle once; an enabled stale entry can still be denied. Pasted-text feedback works without this permission.
 
@@ -32,14 +34,16 @@ For capture, enable **Writing FTM** under System Settings → Privacy & Security
 Rust / egui widget and overlay
   → macOS screencapture (explicit click; screen or selected region)
   → Apple Vision OCR through Rust objc2 bindings
-  → editable context + user request
-  → one-shot local Python/MLX subprocess
-  → feedback shown in the Rust overlay
+  → editable passage + separate source evidence
+  → one-shot Python/MLX subprocess → CritiqueEngine.assess
+  → strict schema + exact source/passage quote validation
+  → four deterministic presentation views
+  → Rust overlay selects a view without another model call
 ```
 
 The interface, capture orchestration, OCR bridge, cancellation, and process lifecycle are Rust. Python remains the existing local model runtime. There is no web server, Swift code, cloud inference, or always-on capture loop. The base model is used; experimental fine-tuned adapters are not loaded.
 
-The worker is started only for a feedback request and exits afterward, releasing model memory. Requests are limited to 8,000 context characters and 1,000 instruction characters, with a 120-second worker timeout. Capture and inference run off the UI thread. The model receives extracted text only, not the screenshot or other files.
+The worker is started only for a feedback request and exits afterward, releasing model memory. Each input is limited to 8,000 characters, with a 120-second worker timeout and a 1,536-token output cap. The widget accepts one source excerpt (`source-1`). Capture and inference run off the UI thread. The model receives extracted text only, not the screenshot or other files.
 
 ## Data and limitations
 
@@ -54,17 +58,19 @@ A capture is a snapshot, not ongoing awareness. Main-display capture may include
 .venv/bin/python -m unittest discover -s tests
 ```
 
-Rust tests cover missing-runtime errors and cancellation/reaping of the local worker. Python tests cover input limits and separating captured text from system instructions. Live OCR and UI behavior require a macOS session and user-granted Screen Recording access.
+Rust tests cover missing-runtime errors, cancellation/reaping, and draining structured responses larger than the pipe buffer. Python tests cover input limits, instruction/data separation, rejection of fabricated quotes, retain/revise presentations, and preservation across all four tone settings with one model call. Live OCR and UI behavior require a macOS session and user-granted Screen Recording access.
 
 ### Local smoke test (2026-11-10)
 
-On the development Mac, the bundle launched, the companion opened and collapsed the overlay, the synthetic example produced local feedback, and Cancel returned the UI to its idle state. The response flagged the example's unsupported causal claim; this is a smoke test, not a quality evaluation. All 33 Python tests and 2 Rust tests passed locally.
+On the development Mac, the bundle launched, the companion opened and collapsed the overlay, the synthetic example produced local feedback, and Cancel returned the UI to its idle state. The response flagged the example's unsupported causal claim; this is a smoke test, not a quality evaluation. This earlier check used the free-form worker.
 
 The initial ad-hoc build had a stale Screen Recording grant despite an enabled switch. The bundle's designated requirement was tied to its executable hash. Switching to the existing Apple Development certificate and refreshing only Writing FTM's permission entry resolved it. The actual display-capture → screenshot preview → Apple Vision OCR path succeeded, including after another source rebuild and relaunch without regranting permission. The app now restores the overlay before OCR, since Vision's first-run model preparation caused a long hidden-window delay. The permission request's success result is also respected instead of always reporting denial after a request.
 
 This verifies display capture and OCR on the development Mac, not OCR accuracy across applications. Successful manual region selection remains unverified. Captured test context was cleared; no screenshots or OCR contents were added to the repository. See [Apple's explanation of ad-hoc signing and capture permission](https://developer.apple.com/forums/thread/819406) and [code-signing requirements](https://developer.apple.com/documentation/technotes/tn3127-inside-code-signing-requirements).
 
-The overlay currently uses a separate free-form feedback prompt through the existing MLX provider. It does not yet invoke the project's structured critique engine, preservation checks, or warmth/directness controls. Those integrations and their evaluations remain follow-up work.
+The structured worker integration passed 37 Python tests and 3 Rust tests. A local model smoke test returned a validated `revise` critique for the synthetic causal claim in 8.6 seconds. In the rebuilt overlay, the same causal claim received `revise`; changing it to a qualified association received `retain`. Switching warmth and directness updated the cached display immediately, expandable quotes remained available, and editing the passage cleared the prior critique. These are smoke tests, not a quality evaluation. Clippy was unavailable in the local Rust toolchain.
+
+The controls currently change framing and ordering, not the model's wording. Perceived warmth is not calibrated or evaluated here. Schema and literal-quote validation cannot establish that the reasoning is correct. Invalid or token-capped model outputs are rejected without a free-form fallback. The widget reviews evidence claims; it does not yet expose the engine's dispute/reassessment flow or offer general grammar/style editing.
 
 ## Visual design
 
