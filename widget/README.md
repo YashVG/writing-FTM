@@ -7,6 +7,7 @@ A small floating companion opens a local feedback overlay. The app stays running
 Requires Rust/Cargo, Xcode command-line tools, and the project's Python/MLX environment on Apple Silicon. From the repository root:
 
 ```sh
+./scripts/setup_local.sh
 ./scripts/build_widget.sh
 open "runs/widget/Writing FTM.app"
 ```
@@ -43,6 +44,8 @@ Rust / egui widget and overlay
 
 The interface, capture orchestration, OCR bridge, cancellation, and process lifecycle are Rust. Python remains the existing local model runtime. There is no web server, Swift code, cloud inference, or always-on capture loop. The base model is used; experimental fine-tuned adapters are not loaded.
 
+The shared default is `runs/runtime/model.json`, prepared by setup with pinned weights and a checksum-verified Instruct template. No ignored fine-tuning run is selected automatically. `.venv/bin/python -m scripts.check_setup` checks this configuration without loading the model.
+
 The worker is started only for a feedback request and exits afterward, releasing model memory. Each input is limited to 8,000 characters, with a 120-second worker timeout and a 1,536-token output cap. The widget accepts one source excerpt (`source-1`). Capture and inference run off the UI thread. The model receives extracted text only, not the screenshot or other files.
 
 ## Data and limitations
@@ -60,15 +63,9 @@ A capture is a snapshot, not ongoing awareness. Main-display capture may include
 
 Rust tests cover missing-runtime errors, cancellation/reaping, and draining structured responses larger than the pipe buffer. Python tests cover input limits, instruction/data separation, rejection of fabricated quotes, retain/revise presentations, and preservation across all four tone settings with one model call. Live OCR and UI behavior require a macOS session and user-granted Screen Recording access.
 
-### Local smoke test (2026-11-10)
+### Release verification
 
-On the development Mac, the bundle launched, the companion opened and collapsed the overlay, the synthetic example produced local feedback, and Cancel returned the UI to its idle state. The response flagged the example's unsupported causal claim; this is a smoke test, not a quality evaluation. This earlier check used the free-form worker.
-
-The initial ad-hoc build had a stale Screen Recording grant despite an enabled switch. The bundle's designated requirement was tied to its executable hash. Switching to the existing Apple Development certificate and refreshing only Writing FTM's permission entry resolved it. The actual display-capture → screenshot preview → Apple Vision OCR path succeeded, including after another source rebuild and relaunch without regranting permission. The app now restores the overlay before OCR, since Vision's first-run model preparation caused a long hidden-window delay. The permission request's success result is also respected instead of always reporting denial after a request.
-
-This verifies display capture and OCR on the development Mac, not OCR accuracy across applications. Successful manual region selection remains unverified. Captured test context was cleared; no screenshots or OCR contents were added to the repository. See [Apple's explanation of ad-hoc signing and capture permission](https://developer.apple.com/forums/thread/819406) and [code-signing requirements](https://developer.apple.com/documentation/technotes/tn3127-inside-code-signing-requirements).
-
-The structured worker integration passed 37 Python tests and 3 Rust tests. A local model smoke test returned a validated `revise` critique for the synthetic causal claim in 8.6 seconds. In the rebuilt overlay, the same causal claim received `revise`; changing it to a qualified association received `retain`. Switching warmth and directness updated the cached display immediately, expandable quotes remained available, and editing the passage cleared the prior critique. These are smoke tests, not a quality evaluation. Clippy was unavailable in the local Rust toolchain.
+See the [v0.1.0 acceptance record](../docs/release-v0.1.0.md) for exact automated, live, and unverified checks. The [visual walkthrough](../docs/demo.md) uses synthetic inputs and actual app captures. The release is a locally built development bundle; cross-machine installation and notarized distribution are not verified.
 
 The controls currently change framing and ordering, not the model's wording. Perceived warmth is not calibrated or evaluated here. Schema and literal-quote validation cannot establish that the reasoning is correct. Invalid or token-capped model outputs are rejected without a free-form fallback. The widget reviews evidence claims; it does not yet expose the engine's dispute/reassessment flow or offer general grammar/style editing.
 

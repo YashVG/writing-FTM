@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from .engine import CritiqueEngine, parse_critique, ValidationError
 from .providers import MLXProvider
+from .runtime import DEFAULT_MODEL_INFO
 from .retrieval import retrieve
 
 
@@ -12,7 +13,7 @@ def main():
     parser.add_argument('--input', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--retrieve-k', type=int, help='Select top-k evidence documents with the lexical baseline')
-    parser.add_argument('--model-info', default='runs/pilot/model.json')
+    parser.add_argument('--model-info', default=DEFAULT_MODEL_INFO)
     parser.add_argument('--fixture-response', type=Path, help='Replay supplied JSON; does not run a model')
     args = parser.parse_args()
     if args.output.exists():

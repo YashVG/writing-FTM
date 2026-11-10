@@ -67,6 +67,16 @@ pub fn feedback(
     source: &str,
     cancel: Arc<AtomicBool>,
 ) -> Result<Feedback, String> {
+    feedback_with_timeout(root, context, source, cancel, Duration::from_secs(120))
+}
+
+fn feedback_with_timeout(
+    root: &Path,
+    context: &str,
+    source: &str,
+    cancel: Arc<AtomicBool>,
+    timeout: Duration,
+) -> Result<Feedback, String> {
     let python = root.join(".venv/bin/python");
     if !python.exists() {
         return Err("Local Python environment missing. Run the project setup first.".into());
@@ -100,7 +110,7 @@ pub fn feedback(
     }
     let start = Instant::now();
     loop {
-        if cancel.load(Ordering::Relaxed) || start.elapsed() > Duration::from_secs(120) {
+        if cancel.load(Ordering::Relaxed) || start.elapsed() > timeout {
             let _ = child.kill();
             let _ = child.wait();
             return Err("Feedback cancelled or timed out. Try a shorter passage.".into());
@@ -200,15 +210,41 @@ mod tests {
         );
         assert!(result.unwrap_err().contains("environment missing"));
     }
+    fn sleeping_worker() -> tempfile::TempDir {
+        use std::os::unix::fs::PermissionsExt;
+        let root = tempfile::tempdir().unwrap();
+        let bin = root.path().join(".venv/bin");
+        std::fs::create_dir_all(&bin).unwrap();
+        let python = bin.join("python");
+        std::fs::write(&python, "#!/bin/sh\nexec sleep 10\n").unwrap();
+        std::fs::set_permissions(&python, std::fs::Permissions::from_mode(0o700)).unwrap();
+        root
+    }
     #[test]
     fn cancelled_worker_is_reaped() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
-        if !root.join(".venv/bin/python").exists() {
-            return;
-        }
+        let root = sleeping_worker();
         let start = Instant::now();
-        let result = feedback(root, "sample", "review", Arc::new(AtomicBool::new(true)));
+        let result = feedback(
+            root.path(),
+            "sample",
+            "review",
+            Arc::new(AtomicBool::new(true)),
+        );
         assert!(result.unwrap_err().contains("cancelled"));
+        assert!(start.elapsed() < Duration::from_secs(3));
+    }
+    #[test]
+    fn stalled_worker_times_out() {
+        let root = sleeping_worker();
+        let start = Instant::now();
+        let result = feedback_with_timeout(
+            root.path(),
+            "sample",
+            "review",
+            Arc::new(AtomicBool::new(false)),
+            Duration::from_millis(20),
+        );
+        assert!(result.unwrap_err().contains("timed out"));
         assert!(start.elapsed() < Duration::from_secs(3));
     }
 }

@@ -52,9 +52,10 @@ pub fn recognize(path: &Path) -> Result<String, String> {
 pub fn capture_screen(interactive: bool, captured: impl FnOnce()) -> Result<Snapshot, String> {
     // Request can succeed immediately; don't discard its result and report a
     // false denial. Capture itself still runs under macOS permission enforcement.
-    if !unsafe { CGPreflightScreenCaptureAccess() || CGRequestScreenCaptureAccess() } {
-        return Err("Screen Recording access is needed. Enable Writing FTM in System Settings → Privacy & Security → Screen Recording, then quit and reopen the app. You can paste text without granting access.".into());
-    }
+    ensure_permission(
+        || unsafe { CGPreflightScreenCaptureAccess() },
+        || unsafe { CGRequestScreenCaptureAccess() },
+    )?;
     let directory = tempfile::tempdir().map_err(|e| e.to_string())?;
     let path = directory.path().join("capture.png");
     let mut command = Command::new("/usr/sbin/screencapture");
@@ -96,4 +97,32 @@ pub fn capture_screen(interactive: bool, captured: impl FnOnce()) -> Result<Snap
         image: egui::ColorImage::from_rgba_unmultiplied(size, image.as_raw()),
         text,
     })
+}
+
+fn ensure_permission(
+    preflight: impl FnOnce() -> bool,
+    request: impl FnOnce() -> bool,
+) -> Result<(), String> {
+    if preflight() || request() {
+        return Ok(());
+    }
+    Err("Screen Recording access is needed. Enable Writing FTM in System Settings → Privacy & Security → Screen Recording, then quit and reopen the app. You can paste text without granting access.".into())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn denied_permission_offers_paste_without_capture() {
+        assert!(ensure_permission(|| false, || false)
+            .unwrap_err()
+            .contains("paste text without granting access"));
+    }
+    #[test]
+    fn newly_granted_permission_is_respected() {
+        assert!(ensure_permission(|| false, || true).is_ok());
+        assert!(
+            ensure_permission(|| true, || panic!("Must not request existing permission")).is_ok()
+        );
+    }
 }

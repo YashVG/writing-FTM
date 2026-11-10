@@ -1,11 +1,11 @@
 """One-shot local critique worker. Inputs and results stay in memory, never logged."""
 import json
 import sys
-from pathlib import Path
 
 from .engine import CritiqueEngine, ValidationError
 from .presentation import from_record, present
 from .providers import MLXProvider
+from .runtime import SetupError
 
 MAX_CHARS = 8000
 MAX_BYTES = 100000  # UTF-8 JSON envelope for both 8,000-character fields.
@@ -44,18 +44,11 @@ def main():
             raise ValueError('Request is too large.')
         request = json.loads(raw)
         validate_request(request)
-        info = 'runs/pilot/model.json'
-        repaired = Path('runs/finetuning/template-repair/model.json')
-        if repaired.exists():
-            info = str(repaired)
-        metadata = json.loads(Path(info).read_text())
-        if not Path(metadata['path']).is_dir():
-            raise ValueError('Pinned local model is missing; run the project model setup.')
-        result = run(request, MLXProvider(info, max_tokens=1536))
+        result = run(request, MLXProvider(max_tokens=1536))
         print(json.dumps(result, ensure_ascii=False))
     except Exception as error:
         # Validators/provider errors can contain model text. Never echo them.
-        message = ('The model returned an invalid critique or unverified quote. No feedback accepted. Try a shorter passage and source.'
+        message = str(error) if isinstance(error, SetupError) else ('The model returned an invalid critique or unverified quote. No feedback accepted. Try a shorter passage and source.'
                    if isinstance(error, ValidationError) else
                    'Local critique failed. Check that both fields are filled, each is at most 8,000 characters, and the local model is installed. A shorter passage may help.')
         print(json.dumps({'error': message}))

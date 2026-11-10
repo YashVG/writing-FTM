@@ -1,6 +1,10 @@
 # Writing-FTM
 
-A local research project exploring how AI writing feedback can become more natural and personal while preserving valid criticism.
+A local macOS writing-critique assistant and research prototype. A Rust companion captures text on demand, runs an evidence-based critique through a local model, and lets you adjust presentation without rewriting the criticism.
+
+![Writing FTM reviewing a synthetic passage](docs/media/03-action-first.png)
+
+**v0.1.0 · Research prototype · Apple Silicon for live inference.** [Visual walkthrough](docs/demo.md) · [Release checks](docs/release-v0.1.0.md) · [Model-free demo](#try-it)
 
 ## Motivation
 
@@ -16,7 +20,7 @@ Given a passage and source material, the engine produces a `retain` or `revise` 
 
 The local demo lets you inspect that record, change the framing and order of feedback, save preferences, and dispute a diagnosis. A dispute sends the evidence back through the model for reassessment. The CLI also supports a lexical retrieval baseline that selects evidence documents from a supplied collection.
 
-Today, tone controls use fixed framing and field ordering. They preserve the stored diagnosis and advice exactly; they do not perform free-form rewriting. Feedback is logged locally for later review, not used to train the model automatically. On the `fine-tuning` branch, a [20-update neutral-feedback QLoRA pilot](research/results/finetuning-pilot-v1/REPORT.md) has now run. It lowered validation loss but left verdict accuracy at 7/8 and introduced one repetitive, truncated response. A [follow-up repair](research/results/repetition-repair/REPORT.md) removed the observed repetition across two seeds using the official chat template and a lower learning rate. Verdict accuracy remained 7/8. The adapters are experimental and are not used by the demo.
+Today, tone controls use fixed framing and field ordering. They preserve the stored diagnosis and advice exactly; they do not perform free-form rewriting. The browser demo logs feedback locally for later review; the widget keeps its session in memory and does not yet collect ratings or expose disputes. Neither trains the model automatically. A [20-update neutral-feedback QLoRA pilot](research/results/finetuning-pilot-v1/REPORT.md) has now run. It lowered validation loss but left verdict accuracy at 7/8 and introduced one repetitive, truncated response. A [follow-up repair](research/results/repetition-repair/REPORT.md) removed the observed repetition across two seeds using the official chat template and a lower learning rate. Verdict accuracy remained 7/8. The adapters are experimental and are not used by the demo.
 
 ## Simple architecture
 
@@ -29,11 +33,14 @@ flowchart TD
     D --> E[Validate JSON, source IDs, and exact quotes]
     E --> F[Structured critique record]
     F --> G[Framing and ordering controls]
-    G --> H[Local demo and feedback log]
+    G --> H[Browser demo and local feedback log]
+    G --> I[Rust widget: cached views in memory]
+    J[On-demand screen capture and Apple Vision OCR] --> K[User reviews passage and supplies evidence]
+    K --> C
     H -->|Dispute and recheck evidence| C
 ```
 
-The Python engine is shared by the CLI, demo, and benchmark runner. Validation rejects malformed records and quotes absent from the supplied text. It does **not** establish that the evidence supports the model's reasoning. [Architecture and design decisions](research/architecture.md).
+The Python engine is shared by the CLI, browser demo, Rust widget worker, and benchmark runner. Validation rejects malformed records and quotes absent from the supplied text. It does **not** establish that the evidence supports the model's reasoning. [Architecture and design decisions](research/architecture.md).
 
 ## What the experiments found
 
@@ -49,14 +56,15 @@ Development covered five source groups; reserved evaluation covered four. Invali
 
 ## Background companion (Rust)
 
-The `background-widget` branch adds a floating macOS companion. Clicking it opens an overlay with on-demand screen capture, local OCR, editable passages and source evidence, and structured critiques from the local model. Warmth and directness controls adjust framing and order while preserving the diagnosis and citations. It does not continuously watch the screen.
+The Rust app provides a floating macOS companion. Clicking it opens an overlay with on-demand screen capture, local OCR, editable passages and source evidence, and structured critiques from the local model. Warmth and directness controls adjust framing and order while preserving the diagnosis and citations. It does not continuously watch the screen.
 
 ```sh
+./scripts/setup_local.sh
 ./scripts/build_widget.sh
 open "runs/widget/Writing FTM.app"
 ```
 
-Grant Screen Recording access when prompted, or paste text without screen access. The interface and capture/OCR integration are Rust; the existing Python/MLX engine provides inference. See the [widget guide](widget/README.md) for setup, controls, and privacy behavior.
+Building the widget also requires Rust/Cargo, Xcode command-line tools, and a signing identity; the widget guide documents the temporary ad-hoc option. This source release is not a notarized app download. Grant Screen Recording access when prompted, or paste text without screen access. The interface and capture/OCR integration are Rust; the existing Python/MLX engine provides inference. See the [widget guide](widget/README.md) for setup, controls, and privacy behavior.
 
 ## Try it
 
@@ -72,13 +80,11 @@ Open http://127.0.0.1:8765. Fixture mode replays a labeled example and refuses e
 For live inference on Apple Silicon:
 
 ```sh
-uv venv --python 3.12 --python-preference only-managed .venv
-uv pip sync --python .venv/bin/python requirements.lock
-.venv/bin/python scripts/download_model.py
+./scripts/setup_local.sh
 .venv/bin/python -m writing_ftm.demo --live
 ```
 
-The model is a pinned 4-bit Qwen3-4B snapshot. It runs locally without a paid API. The measured machine is an M3 Pro with 18 GB unified memory; see the [capacity measurements](research/results/mac-capacity.md). The demo is a single-user local server. See the [walkthrough](research/demo-guide.md) for live disputes and feedback logging.
+Setup requires [uv](https://docs.astral.sh/uv/getting-started/installation/). It creates `runs/runtime/model.json` for a pinned 4-bit Qwen3-4B snapshot with the audited Instruct template. Run `.venv/bin/python -m scripts.check_setup` to diagnose missing files. Setup is repeatable; `./scripts/setup_local.sh --offline` reuses a cached snapshot. The CLI, browser demo, and widget use this same default configuration; inference never downloads a model. It runs locally without a paid API. The measured machine is an M3 Pro with 18 GB unified memory; see the [capacity measurements](research/results/mac-capacity.md). The demo is a single-user local server. See the [walkthrough](research/demo-guide.md) for live disputes and feedback logging.
 
 CLI with optional retrieval:
 

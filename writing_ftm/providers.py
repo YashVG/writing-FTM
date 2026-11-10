@@ -1,12 +1,11 @@
 """Lazy local model loading; no model download or ML imports for fixture tests."""
-import json
-from pathlib import Path
 from threading import Lock
+from .runtime import DEFAULT_MODEL_INFO, load_model_info
 
 
 class MLXProvider:
-    def __init__(self, model_info='runs/pilot/model.json', max_tokens=1024):
-        self.info = json.loads(Path(model_info).read_text())
+    def __init__(self, model_info=DEFAULT_MODEL_INFO, max_tokens=1024):
+        self.info = load_model_info(model_info)
         if max_tokens <= 0:
             raise ValueError('max_tokens must be positive')
         self.max_tokens = max_tokens
@@ -15,7 +14,7 @@ class MLXProvider:
 
     def metadata(self):
         return {'model': self.info['model'], 'revision': self.info['revision'],
-                'temperature': 0, 'max_tokens': self.max_tokens, 'backend': 'mlx'}
+                'template': self.info.get('template'), 'temperature': 0, 'max_tokens': self.max_tokens, 'backend': 'mlx'}
 
     def generate(self, messages):
         from mlx_lm import load, stream_generate
