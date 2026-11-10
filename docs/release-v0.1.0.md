@@ -24,7 +24,8 @@ Source-based research prototype, checked on November 10, 2026, on an M3 Pro Mac 
 | Input editing / expand-collapse | Passed. Editing clears old feedback; repeated collapse/expand preserves the current result. |
 | UI cancellation | Passed. Cancel restored editable inputs and the feedback button. |
 | Native region selector timeout | Passed. An unattended selector timed out and restored the overlay with an actionable message. |
-| Region selection / Escape | Unverified. The computer-control tool could not interact with the system selector; a manual check is still needed. |
+| Escape cancellation | Passed with user assistance. The overlay returned with “Capture cancelled. Nothing was sent to the model.” No screenshot or critique was accepted. |
+| Successful region selection | Unverified. The computer-control tool could not drag inside the system selector; a manual selection check is still needed. |
 | Permission denied | Tested with injected permission results, not by revoking the user's existing macOS permission. |
 | Display capture and OCR | Verified earlier on this Mac after stable signing, including a rebuild. This is not a cross-application OCR accuracy claim. |
 
@@ -32,7 +33,7 @@ Source-based research prototype, checked on November 10, 2026, on an M3 Pro Mac 
 
 ## Manual follow-up
 
-Open **Choose an area**, select a small synthetic paragraph, and confirm that the overlay returns with a preview and editable OCR. Repeat with Escape and confirm that no image or critique is accepted. Record the result before claiming region selection is verified. The feature remains experimental in this release; pasted text is the reproducible path.
+Open **Choose an area**, select a small synthetic paragraph, and confirm that the overlay returns with a preview and editable OCR. Escape cancellation has been checked separately. Record the result before claiming region selection is verified. The feature remains experimental in this release; pasted text is the reproducible path.
 
 ## Before the next research iteration
 
