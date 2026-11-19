@@ -1,0 +1,13 @@
+[
+  {"id":"workshop-causal","passage":"The workshop caused higher confidence.","gold":["workshop"],"verdict":"revise"},
+  {"id":"workshop-qualified","passage":"Workshop attendance was associated with higher confidence in the survey.","gold":["workshop"],"verdict":"retain"},
+  {"id":"skills-proxy","passage":"Trainees performed better on the job after the online lesson.","gold":["tutorial"],"verdict":"revise"},
+  {"id":"library-paraphrase","passage":"More loans came back once penalties for keeping novels too long disappeared.","gold":["stacks"],"verdict":"retain"},
+  {"id":"identifier-wait","passage":"K17 cut the time that riders spent aboard vehicles.","gold":["transit-a"],"verdict":"revise"},
+  {"id":"identifier-trip","passage":"People on K71 reached their destinations sooner.","gold":["transit-b"],"verdict":"retain"},
+  {"id":"instrument-check","passage":"The gauge and marked staff gave similar readings at the eastern footbridge the next morning.","gold":["stream"],"verdict":"retain"},
+  {"id":"wrong-site","passage":"Storm runoff increased sediment at the eastern footbridge, as the footbridge measurements show.","gold":["stream","water-lab"],"verdict":"revise"},
+  {"id":"perception-proxy","passage":"Most respondents felt safer at night after the station lamps were installed.","gold":["night-poll"],"verdict":"retain"},
+  {"id":"two-measures","passage":"After the station lamps were installed, evening bicycle counts rose and most surveyed cyclists reported feeling safer.","gold":["night-count","night-poll"],"verdict":"retain"},
+  {"id":"absent-topic","passage":"Meteorites contain nickel.","gold":[],"verdict":null}
+]

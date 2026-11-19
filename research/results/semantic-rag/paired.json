@@ -1,0 +1,1059 @@
+{
+  "provenance": {
+    "fixture_sha256": {
+      "examples/rag-request.json": "ceb2bd60e6ca7050448542303aa729fa8e52f8a7c8f50179ad7b05a3943b48f3",
+      "examples/rag-cases.json": "ca091a8462677382ff3db998bf0a7a9ed40ba80980b7c2cdd6d806da48f50659"
+    },
+    "embedding": {
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "files_sha256": {
+        "model.safetensors": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+        "config.json": "953f9c0d463486b10a6871cc2fd59f223b2c70184f49815e7efbcab5d8908b41",
+        "config_sentence_transformers.json": "061ca9d39661d6c6d6de5ba27f79a1cd5770ea247f8d46412a68a498dc5ac9f3",
+        "modules.json": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+        "sentence_bert_config.json": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7",
+        "1_Pooling/config.json": "4be450dde3b0273bb9787637cfbd28fe04a7ba6ab9d36ac48e92b11e350ffc23",
+        "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037",
+        "tokenizer_config.json": "acb92769e8195aabd29b7b2137a9e6d6e25c476a4f15aa4355c233426c61576b",
+        "special_tokens_map.json": "303df45a03609e4ead04bc3dc1536d0ab19b5358db685b6f3da123d05ec200e3",
+        "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+      },
+      "device": "cpu",
+      "threads": 4,
+      "normalize_embeddings": true,
+      "dimensions": 384,
+      "max_sequence_tokens": 256
+    },
+    "index": {
+      "method": "langchain-semantic-parent",
+      "score": "cosine_similarity",
+      "corpus_sha256": "e42fd9c209faf25cb86bccb865bc21a1a2521603a9de734d3f7ee9ec51b3db88",
+      "documents": 10,
+      "chunks": 15,
+      "chunk_size_chars": 160,
+      "chunk_overlap_chars": 32,
+      "context_policy": "unchanged full parent documents; never concatenated chunks",
+      "libraries": {
+        "langchain-core": "1.8.3",
+        "langchain-text-splitters": "1.1.3"
+      }
+    },
+    "query": "passage",
+    "k": 2,
+    "min_cosine_score": null,
+    "provider": {
+      "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+      "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+      "template": {
+        "url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/raw/cdbee75f17c01a7cc42f958dc650907174af0554/tokenizer_config.json",
+        "upstream_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "sha256": "64f85b198065d0fba2a81f37e10ed68161ce2c19a754c7100e67e0ca2ee9c326",
+        "model_revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+        "reason": "Remove thinking-model template from Instruct SFT; use official Instruct template"
+      },
+      "temperature": 0,
+      "max_tokens": 1024,
+      "backend": "mlx"
+    },
+    "engine_sha256": "748f2a638df6e58f1fc42687999ecbef91de770efa62ccb666379f3a8ae1e618"
+  },
+  "labels": {
+    "workshop-causal": [
+      "workshop"
+    ],
+    "workshop-qualified": [
+      "workshop"
+    ],
+    "skills-proxy": [
+      "tutorial"
+    ],
+    "library-paraphrase": [
+      "stacks"
+    ],
+    "identifier-wait": [
+      "transit-a"
+    ],
+    "identifier-trip": [
+      "transit-b"
+    ],
+    "instrument-check": [
+      "stream"
+    ],
+    "wrong-site": [
+      "stream",
+      "water-lab"
+    ],
+    "perception-proxy": [
+      "night-poll"
+    ],
+    "two-measures": [
+      "night-count",
+      "night-poll"
+    ],
+    "absent-topic": []
+  },
+  "retrieval": {
+    "lexical": {
+      "at_1": {
+        "mean_recall": 0.7,
+        "all_gold_retrieved": 6,
+        "answerable_cases": 10
+      },
+      "at_2": {
+        "mean_recall": 0.9,
+        "all_gold_retrieved": 9,
+        "answerable_cases": 10
+      },
+      "hits_on_unanswerable": {
+        "absent-topic": 0
+      },
+      "rankings": {
+        "workshop-causal": [
+          {
+            "source_id": "workshop",
+            "score": 1.2624640018123843
+          },
+          {
+            "source_id": "payments",
+            "score": 0.5575612297568693
+          }
+        ],
+        "workshop-qualified": [
+          {
+            "source_id": "workshop",
+            "score": 3.815354080471295
+          },
+          {
+            "source_id": "stacks",
+            "score": 0.6784869461450646
+          }
+        ],
+        "skills-proxy": [
+          {
+            "source_id": "tutorial",
+            "score": 0.6993858774371001
+          },
+          {
+            "source_id": "night-count",
+            "score": 0.5568120347128812
+          }
+        ],
+        "library-paraphrase": [
+          {
+            "source_id": "transit-a",
+            "score": 0.5633462674245122
+          },
+          {
+            "source_id": "tutorial",
+            "score": 0.36574137011739605
+          }
+        ],
+        "identifier-wait": [
+          {
+            "source_id": "transit-a",
+            "score": 0.8041969921791037
+          },
+          {
+            "source_id": "night-count",
+            "score": 0.7454042047736008
+          }
+        ],
+        "identifier-trip": [
+          {
+            "source_id": "payments",
+            "score": 0.36574137011739605
+          },
+          {
+            "source_id": "transit-b",
+            "score": 0.36574137011739605
+          }
+        ],
+        "instrument-check": [
+          {
+            "source_id": "stream",
+            "score": 2.081076419789196
+          },
+          {
+            "source_id": "water-lab",
+            "score": 1.013835274198353
+          }
+        ],
+        "wrong-site": [
+          {
+            "source_id": "water-lab",
+            "score": 1.7445861702192773
+          },
+          {
+            "source_id": "stream",
+            "score": 0.9996329302845011
+          }
+        ],
+        "perception-proxy": [
+          {
+            "source_id": "night-poll",
+            "score": 3.6847493634146615
+          },
+          {
+            "source_id": "night-count",
+            "score": 1.7798216935514013
+          }
+        ],
+        "two-measures": [
+          {
+            "source_id": "night-count",
+            "score": 2.832789459975638
+          },
+          {
+            "source_id": "night-poll",
+            "score": 2.5005439370972575
+          }
+        ],
+        "absent-topic": []
+      }
+    },
+    "semantic": {
+      "at_1": {
+        "mean_recall": 0.9,
+        "all_gold_retrieved": 8,
+        "answerable_cases": 10
+      },
+      "at_2": {
+        "mean_recall": 1.0,
+        "all_gold_retrieved": 10,
+        "answerable_cases": 10
+      },
+      "hits_on_unanswerable": {
+        "absent-topic": 2
+      },
+      "rankings": {
+        "workshop-causal": [
+          {
+            "source_id": "workshop",
+            "score": 0.7064881868841107
+          },
+          {
+            "source_id": "tutorial",
+            "score": 0.4540250069844638
+          }
+        ],
+        "workshop-qualified": [
+          {
+            "source_id": "workshop",
+            "score": 0.8599529546160074
+          },
+          {
+            "source_id": "tutorial",
+            "score": 0.4492967477436182
+          }
+        ],
+        "skills-proxy": [
+          {
+            "source_id": "tutorial",
+            "score": 0.4910431998489758
+          },
+          {
+            "source_id": "workshop",
+            "score": 0.3052050507224931
+          }
+        ],
+        "library-paraphrase": [
+          {
+            "source_id": "stacks",
+            "score": 0.5356526444742185
+          },
+          {
+            "source_id": "payments",
+            "score": 0.41331500287087447
+          }
+        ],
+        "identifier-wait": [
+          {
+            "source_id": "transit-a",
+            "score": 0.6791365821501963
+          },
+          {
+            "source_id": "transit-b",
+            "score": 0.6051639336969032
+          }
+        ],
+        "identifier-trip": [
+          {
+            "source_id": "transit-b",
+            "score": 0.6892774923518084
+          },
+          {
+            "source_id": "transit-a",
+            "score": 0.5311582863992379
+          }
+        ],
+        "instrument-check": [
+          {
+            "source_id": "stream",
+            "score": 0.5215372526246066
+          },
+          {
+            "source_id": "water-lab",
+            "score": 0.34514600720760225
+          }
+        ],
+        "wrong-site": [
+          {
+            "source_id": "water-lab",
+            "score": 0.5076469021513792
+          },
+          {
+            "source_id": "stream",
+            "score": 0.4795402006153288
+          }
+        ],
+        "perception-proxy": [
+          {
+            "source_id": "night-poll",
+            "score": 0.8698764712627325
+          },
+          {
+            "source_id": "night-count",
+            "score": 0.44061253052577803
+          }
+        ],
+        "two-measures": [
+          {
+            "source_id": "night-poll",
+            "score": 0.8106450411678814
+          },
+          {
+            "source_id": "night-count",
+            "score": 0.7171913168183902
+          }
+        ],
+        "absent-topic": [
+          {
+            "source_id": "water-lab",
+            "score": 0.11332666484795133
+          },
+          {
+            "source_id": "stream",
+            "score": 0.10850739020739374
+          }
+        ]
+      }
+    }
+  },
+  "critique": {
+    "lexical": {
+      "valid": 10,
+      "correct_verdicts": 9,
+      "answerable_cases": 10,
+      "cases": {
+        "workshop-causal": {
+          "expected": "revise",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims a causal effect ('caused') between workshop attendance and higher confidence, but the only evidence provided is an association ('associated with') in a fictional survey. The term 'caused' implies causation, which is not supported by the data—only an observational association is established. Additionally, the evidence from the 'payments' source is unrelated and does not support the claim about confidence. The passage overstates the relationship by implying causation where only correlation is observed. This constitutes a misrepresentation of the evidence strength and violates the decision rule that causal language must be supported by evidence showing causation, which is absent here.",
+            "evidence": [
+              {
+                "source_id": "workshop",
+                "quote": "workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+                "start": 26,
+                "end": 122
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "The workshop caused higher confidence.",
+                "passage_start": 0,
+                "passage_end": 38,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "workshop",
+                    "quote": "workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+                    "start": 26,
+                    "end": 122
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "low",
+                "recommendation": "Revise the passage to state 'The workshop attendance was associated with higher confidence' to accurately reflect the evidence, which only shows an association, not causation."
+              }
+            ]
+          },
+          "prompt_sha256": "35af8ff2f5d8a2bc0ed1ab54fa08588c77ad291b8a5d1f92b6a23ad95a0f0d3b"
+        },
+        "workshop-qualified": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "retain",
+            "rationale": "The passage states that 'workshop attendance was associated with higher confidence in the survey.' The source provided under 'workshop' directly supports this claim by stating: 'In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.' This matches the passage's wording and claim exactly—no causal inference is implied beyond association, and the passage does not claim causation. The other source discusses book returns and overdue fines, which is unrelated. Since the provided evidence directly supports the passage's claim without overreach or misrepresentation, the passage is retained as accurate and appropriately qualified.",
+            "evidence": [
+              {
+                "source_id": "workshop",
+                "quote": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+                "start": 0,
+                "end": 122
+              }
+            ],
+            "issues": []
+          },
+          "prompt_sha256": "a9d8e194ad8f79ebb9e03af7160b4520f84f25c8891e345b52b2f7fa32ffd4b6"
+        },
+        "skills-proxy": {
+          "expected": "revise",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims a causal effect ('performed better on the job') based on an online lesson, but the evidence shows no measurement of practical skill or work performance. The sources indicate only increased self-reported confidence and a rise in bicycle counts after lamp installation, neither of which relates to job performance. The passage overreaches by inferring improved job performance from a self-reported confidence increase and an unrelated observational count. This constitutes a significant evidence error in causal inference. The claim lacks any direct or indirect measurement of job performance, making the causal assertion unsupported and therefore erroneous.",
+            "evidence": [
+              {
+                "source_id": "tutorial",
+                "quote": "After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work.",
+                "start": 0,
+                "end": 160
+              },
+              {
+                "source_id": "night-count",
+                "quote": "Observers counted bicycles passing the station entrance in the evening. Counts rose after the lamps were installed. The observers did not interview riders.",
+                "start": 0,
+                "end": 155
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "Trainees performed better on the job after the online lesson.",
+                "passage_start": 0,
+                "passage_end": 61,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "tutorial",
+                    "quote": "The study collected no test of practical skill and no observations of performance at work.",
+                    "start": 70,
+                    "end": 160
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "low",
+                "recommendation": "Revise the passage to state only that trainees reported increased confidence after the online lesson, without attributing improved job performance."
+              }
+            ]
+          },
+          "prompt_sha256": "1ea365f305584f554efe9a10ff14144dce03be398cb34c9ef7eaae3bb30ab82a"
+        },
+        "library-paraphrase": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims a causal relationship ('more loans came back') between the removal of penalties for keeping novels too long and an increase in loan returns. However, no source mentions loans, novels, penalties, or return rates. The sources discuss passenger wait times and self-reported confidence, neither of which relates to the claim. The term 'loans' is not defined or supported in any source. The passage misrepresents the content of the sources by inventing a causal mechanism (penalties for novels) with no basis in the provided data. This constitutes a significant evidence error.",
+            "evidence": [
+              {
+                "source_id": "transit-a",
+                "quote": "Route K17: inspectors logged how long passengers waited at stops. The median wait fell from twelve to eight minutes. They did not record how long anyone spent on board.",
+                "start": 0,
+                "end": 168
+              },
+              {
+                "source_id": "tutorial",
+                "quote": "After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work.",
+                "start": 0,
+                "end": 160
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "More loans came back once penalties for keeping novels too long disappeared.",
+                "passage_start": 0,
+                "passage_end": 76,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "transit-a",
+                    "quote": "Route K17: inspectors logged how long passengers waited at stops. The median wait fell from twelve to eight minutes. They did not record how long anyone spent on board.",
+                    "start": 0,
+                    "end": 168
+                  },
+                  {
+                    "source_id": "tutorial",
+                    "quote": "After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work.",
+                    "start": 0,
+                    "end": 160
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "low",
+                "recommendation": "Remove the claim about loans and penalties. The passage contains no support in the sources. Replace with a neutral or accurate statement, such as 'Passenger wait times decreased' or 'Volunteers reported increased confidence after a tutorial.'"
+              }
+            ]
+          },
+          "prompt_sha256": "e6cc02f0bbddbd346a08dcb14092e4b223cd386a41648313ba9b8ddb2c56036d"
+        },
+        "identifier-wait": {
+          "expected": "revise",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims that K17 'cut the time that riders spent aboard vehicles,' implying a direct measurement or change in on-board time. However, the sources explicitly state that 'they did not record how long anyone spent on board' and that observers only measured wait times at stops, not time spent aboard. The evidence does not support any claim about on-board time. The passage makes a causal claim about rider time aboard without empirical support. The only measured change (median wait time) relates to waiting time, not time spent on the vehicle. Thus, the claim is unsupported and must be revised.",
+            "evidence": [
+              {
+                "source_id": "transit-a",
+                "quote": "Route K17: inspectors logged how long passengers waited at stops. The median wait fell from twelve to eight minutes. They did not record how long anyone spent on board.",
+                "start": 0,
+                "end": 168
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "K17 cut the time that riders spent aboard vehicles.",
+                "passage_start": 0,
+                "passage_end": 51,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "transit-a",
+                    "quote": "They did not record how long anyone spent on board.",
+                    "start": 117,
+                    "end": 168
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "low",
+                "recommendation": "Revise the passage to reflect only the observed change in wait time (from 12 to 8 minutes) and remove any claim about time spent aboard."
+              }
+            ]
+          },
+          "prompt_sha256": "053d28a2cda8019731752527c83b8c3521d2bfc5fa9402ca395d449ba23cb390"
+        },
+        "identifier-trip": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "retain",
+            "rationale": "The passage states that 'People on K71 reached their destinations sooner,' which is directly supported by the transit-b source, which reports a median travel time reduction of four minutes for Route K71. The source explicitly notes that travel time was measured between boarding and arrival, and that the median time decreased. This confirms a shorter travel duration, which aligns with the claim that people reached their destinations sooner. The passage does not claim a causal mechanism or imply financial or behavioral changes beyond travel time, and the evidence supports a factual reduction in travel time. No unsupported inference or misrepresentation is present. The claim is consistent with the measured outcome and the design of the study (timed journeys).",
+            "evidence": [
+              {
+                "source_id": "transit-b",
+                "quote": "Route K71: inspectors timed journeys between boarding and arrival. Median travel time fell by four minutes. They did not count passengers waiting at stops.",
+                "start": 0,
+                "end": 155
+              }
+            ],
+            "issues": []
+          },
+          "prompt_sha256": "c00c58e795e7fa6903518c081bfddcb22bb1a588c7429bbc65b652c6d5165f7c"
+        },
+        "instrument-check": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "retain",
+            "rationale": "The passage states that the gauge and marked staff gave similar readings at the eastern footbridge the next morning. This is directly supported by the stream source, which reports that 'A maintenance crew checked the gauge against a marked staff the following morning. The two instruments agreed to within a centimetre.' The passage does not claim any measurement of water quality, fish count, or stream level beyond the instrument agreement, and the source confirms only the agreement of the gauge and marked staff. No unsupported inference or causal claim is made. The claim is limited to instrument agreement, which is explicitly confirmed in the source. Thus, the passage is accurately and directly supported.",
+            "evidence": [
+              {
+                "source_id": "stream",
+                "quote": "A maintenance crew checked the gauge against a marked staff the following morning. The two instruments agreed to within a centimetre.",
+                "start": 159,
+                "end": 292
+              }
+            ],
+            "issues": []
+          },
+          "prompt_sha256": "81f48dff1888988bee83ce4ade7600ae6fb412609e85e2b4820e1a7e2854aac7"
+        },
+        "wrong-site": {
+          "expected": "revise",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims that 'storm runoff increased sediment at the eastern footbridge, as the footbridge measurements show'—implying that measurements at the footbridge directly show increased sediment. However, the sources provide no evidence of sediment measurements at the footbridge. The stream sensor at the eastern footbridge only recorded stream height, which rose during the storm, but there is no mention of sediment concentration or any sediment-related measurement. The water-lab source reports increased suspended sediment in the western reservoir, not at the footbridge. The passage misattributes sediment increase to the footbridge measurements when no such measurements were taken. This constitutes a factual error in linking sediment increase to the footbridge's measurements, despite the storm affecting stream height. The causal link between storm runoff and sediment at the footbridge is unsupported by the data. The claim overreaches the evidence.",
+            "evidence": [
+              {
+                "source_id": "stream",
+                "quote": "On the eastern footbridge, a sensor recorded the height of the stream every hour. Readings rose during the storm. Nobody took a water sample or counted fish.",
+                "start": 0,
+                "end": 157
+              },
+              {
+                "source_id": "water-lab",
+                "quote": "Technicians tested water samples from the western reservoir before and after a storm. The concentration of suspended sediment increased. They recorded no water levels at the footbridge.",
+                "start": 0,
+                "end": 185
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "Storm runoff increased sediment at the eastern footbridge, as the footbridge measurements show.",
+                "passage_start": 0,
+                "passage_end": 95,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "stream",
+                    "quote": "On the eastern footbridge, a sensor recorded the height of the stream every hour. Readings rose during the storm. Nobody took a water sample or counted fish.",
+                    "start": 0,
+                    "end": 157
+                  },
+                  {
+                    "source_id": "water-lab",
+                    "quote": "Technicians tested water samples from the western reservoir before and after a storm. The concentration of suspended sediment increased. They recorded no water levels at the footbridge.",
+                    "start": 0,
+                    "end": 185
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "low",
+                "recommendation": "Revise the passage to state: 'Storm runoff led to increased suspended sediment in the western reservoir, as water samples show. Stream height increased at the eastern footbridge, but sediment measurements were not taken there.'"
+              }
+            ]
+          },
+          "prompt_sha256": "55e9406a62bd17b43ef37410468adc3ce166fc6d4a977a137eb45caf4ee4de83"
+        },
+        "perception-proxy": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "retain",
+            "rationale": "The passage states that 'most respondents felt safer at night after the station lamps were installed,' and the evidence from the night-poll supports this claim: the questionnaire asked cyclists how safe they felt at night, and most said they felt safer. The night-count shows an increase in bicycle traffic, but this is observational and does not directly measure perceived safety. However, the passage does not claim that the increase in traffic caused increased safety, nor does it claim a causal relationship—only that respondents felt safer. The evidence from the night-poll directly supports the reported perception of increased safety, which is consistent with the passage. No unsupported inference or causal claim is made beyond perception. Thus, the claim is supported by the provided evidence, and the passage does not overstate or misrepresent the data.",
+            "evidence": [
+              {
+                "source_id": "night-poll",
+                "quote": "After the lamps were installed at the station, a questionnaire asked cyclists how safe they felt at night. Most respondents said they felt safer. The questionnaire did not count trips.",
+                "start": 0,
+                "end": 184
+              }
+            ],
+            "issues": []
+          },
+          "prompt_sha256": "a56c7971ec4ea2cbcde4e589ff393bc64e6fc6bbdf233ae3971204943508af42"
+        },
+        "two-measures": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "retain",
+            "rationale": "The passage claims that evening bicycle counts rose and most surveyed cyclists reported feeling safer after the station lamps were installed. The evidence from 'night-count' supports the rise in counts, as observers noted an increase in bicycles passing the station entrance after lamp installation. The 'night-poll' supports the claim that most cyclists reported feeling safer, as the questionnaire asked about safety perceptions post-installation. Neither source claims causation, and the passage does not assert causality—only an association. The passage accurately reflects the observational data: increased counts and self-reported safety. No unsupported inferences or misrepresentations are present. The causal language ('felt safer') is consistent with the self-reported data, and the passage does not claim that the lamps caused the safety perception, only that riders reported it. Thus, the claims are directly supported by the provided evidence without overreach.",
+            "evidence": [
+              {
+                "source_id": "night-count",
+                "quote": "Observers counted bicycles passing the station entrance in the evening. Counts rose after the lamps were installed. The observers did not interview riders.",
+                "start": 0,
+                "end": 155
+              },
+              {
+                "source_id": "night-poll",
+                "quote": "After the lamps were installed at the station, a questionnaire asked cyclists how safe they felt at night. Most respondents said they felt safer. The questionnaire did not count trips.",
+                "start": 0,
+                "end": 184
+              }
+            ],
+            "issues": []
+          },
+          "prompt_sha256": "fe282e2f9799134415a8cea14483c0bef39be8748531e332c0a0ee810cb5169a"
+        },
+        "absent-topic": {
+          "expected": null,
+          "error": "No retrieved sources"
+        }
+      }
+    },
+    "semantic": {
+      "valid": 10,
+      "correct_verdicts": 8,
+      "answerable_cases": 10,
+      "cases": {
+        "workshop-causal": {
+          "expected": "revise",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims a causal effect ('caused') without sufficient evidence. The sources only show an association ('associated with') and do not establish causation. The tutorial study reports increased self-reported confidence, but notes no test of practical skill or performance observation, so no causal link can be established. The term 'caused' overstates the evidence; the data only support an association. Additionally, the workshop evidence is fictional and lacks any measurement of actual confidence change or control group data. Thus, the causal language is unsupported and must be revised to reflect the limited evidence.",
+            "evidence": [
+              {
+                "source_id": "workshop",
+                "quote": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+                "start": 0,
+                "end": 122
+              },
+              {
+                "source_id": "tutorial",
+                "quote": "After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work.",
+                "start": 0,
+                "end": 160
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "The workshop caused higher confidence.",
+                "passage_start": 0,
+                "passage_end": 38,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "workshop",
+                    "quote": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+                    "start": 0,
+                    "end": 122
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "high",
+                "recommendation": "Revise the claim from 'caused' to 'was associated with' to accurately reflect the evidence."
+              }
+            ]
+          },
+          "prompt_sha256": "58fcd3956a07815cf6caf0a4e2a55c33881b144b84c0f960aa929d4bebc25b8c"
+        },
+        "workshop-qualified": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "retain",
+            "rationale": "The passage states that workshop attendance was associated with higher confidence in the survey. The source for 'workshop' explicitly states that 'workshop attendance was associated with higher confidence' and notes that participants chose whether to attend. This directly supports the claim of an association between workshop attendance and higher self-reported confidence. The passage does not claim causation, only an association, which is consistent with the source. The tutorial source discusses a different intervention (online tutorial) and its effect on confidence, but does not contradict or undermine the workshop finding. No evidence error is present; the claim is accurately reflected in the provided source. No revision is needed.",
+            "evidence": [
+              {
+                "source_id": "workshop",
+                "quote": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+                "start": 0,
+                "end": 122
+              }
+            ],
+            "issues": []
+          },
+          "prompt_sha256": "2aa5221fa3f22a3c9bb8bb361f162ee8b0cad480f70505f0cd795036d41bd25a"
+        },
+        "skills-proxy": {
+          "expected": "revise",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims a causal effect—'performed better on the job'—based on an online lesson, but the evidence does not support this. The sources indicate only increased self-reported confidence, not actual job performance. The tutorial study explicitly states there was 'no test of practical skill and no observations of performance at work,' so no performance outcome was measured. The workshop study is fictional and only links attendance to confidence, not job performance. Thus, inferring improved job performance from increased confidence is a non-empirical inference and constitutes a causal overstatement unsupported by data. The passage misrepresents the evidence by implying a measurable, observable improvement in job performance when no such data were collected.",
+            "evidence": [
+              {
+                "source_id": "tutorial",
+                "quote": "After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work.",
+                "start": 0,
+                "end": 160
+              },
+              {
+                "source_id": "workshop",
+                "quote": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+                "start": 0,
+                "end": 122
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "Trainees performed better on the job after the online lesson.",
+                "passage_start": 0,
+                "passage_end": 61,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "tutorial",
+                    "quote": "The study collected no test of practical skill and no observations of performance at work.",
+                    "start": 70,
+                    "end": 160
+                  },
+                  {
+                    "source_id": "workshop",
+                    "quote": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+                    "start": 0,
+                    "end": 122
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "low",
+                "recommendation": "Revise the passage to state that 'Trainees reported higher confidence after the online lesson' or 'Trainees rated themselves as more confident,' and remove any claim of improved job performance without empirical support."
+              }
+            ]
+          },
+          "prompt_sha256": "9acdd08b550e3f97b0c18ca7478dfbcd25326caed7076a9931093320ad202dc7"
+        },
+        "library-paraphrase": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims a causal relationship between the removal of penalties for keeping novels too long and an increase in loans returned. However, the evidence from the sources only shows a rise in borrowed books returned after overdue fines were removed, and notes that the library made no record of who returned the books or why. While there is a correlation in the data (more books returned after fines were removed), the passage implies a direct causal effect without establishing that the increase in returns was due to the removal of fines for novels. The source explicitly states that the library made no record of who returned the books or why, which undermines the claim of a causal link. Additionally, the 'payments' source discusses tenants returning keys late and higher payments after a late fee, which is unrelated to novels or library loans. This creates a confusion between different contexts (library books vs. tenant keys). The passage misattributes a change in one context (library book returns) to a policy change in a different context (overdue fines for novels), without evidence linking the two. The causal inference is unsupported by the data, which lacks individual-level or contextual detail. The severity is major because the claim misrepresents the evidence and misidentifies the cause-effect relationship. The uncertainty is high due to the lack of individual-level data and the absence of a clear mechanism linking the policy change to increased returns.",
+            "evidence": [
+              {
+                "source_id": "stacks",
+                "quote": "The branch library removed overdue fines in September. Its ledger shows a rise in the number of borrowed books brought back after the change. The library made no record of who returned the books or why.",
+                "start": 0,
+                "end": 202
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "More loans came back once penalties for keeping novels too long disappeared.",
+                "passage_start": 0,
+                "passage_end": 76,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "stacks",
+                    "quote": "The branch library removed overdue fines in September. Its ledger shows a rise in the number of borrowed books brought back after the change. The library made no record of who returned the books or why.",
+                    "start": 0,
+                    "end": 202
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "high",
+                "recommendation": "Revise the passage to state only that there was an increase in the number of borrowed books returned after overdue fines were removed, without implying a causal relationship or attributing it to the removal of penalties for novels. Add a caveat such as 'a rise in returns was observed, though the reason for the increase remains unclear due to lack of individual records.'"
+              }
+            ]
+          },
+          "prompt_sha256": "4b4d223d1e37a4cc3268e92151b6de344eb2cd160db08e7fdc4524b897aea3dc"
+        },
+        "identifier-wait": {
+          "expected": "revise",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims that K17 cut the time riders spent aboard vehicles (i.e., on board the vehicle), but none of the sources mention any measurement of time spent on board. Transit-a reports a reduction in wait time at stops, not on-board time. Transit-b reports a reduction in travel time for Route K71, not K17, and measures time between boarding and arrival, which includes waiting and travel, not specifically on-board time. The passage misrepresents the data by attributing a change in on-board time to a route (K17) where no such measurement was taken. This constitutes a clear evidence error regarding both the route and the measured outcome. The claim introduces a causal inference (cutting on-board time) from data that did not measure it, and the passage fails to acknowledge the absence of on-board time data. The severity is major because it misrepresents what was measured and implies a conclusion not supported by any data. The uncertainty is low—the sources explicitly state they did not record on-board time—making the error definitive.",
+            "evidence": [
+              {
+                "source_id": "transit-a",
+                "quote": "They did not record how long anyone spent on board.",
+                "start": 117,
+                "end": 168
+              },
+              {
+                "source_id": "transit-b",
+                "quote": "They did not count passengers waiting at stops.",
+                "start": 108,
+                "end": 155
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "K17 cut the time that riders spent aboard vehicles.",
+                "passage_start": 0,
+                "passage_end": 51,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "transit-a",
+                    "quote": "They did not record how long anyone spent on board.",
+                    "start": 117,
+                    "end": 168
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "low",
+                "recommendation": "Revise the passage to state that 'The median wait time at stops for Route K17 decreased from twelve to eight minutes' and remove any claim about riders spending less time aboard the vehicle."
+              }
+            ]
+          },
+          "prompt_sha256": "dc7465d32d688f71fd18d893c03ea334ac884672008982abb1c7906b6e45092a"
+        },
+        "identifier-trip": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims that people on K71 reached their destinations sooner, implying a reduction in total travel time. However, the only evidence provided (transit-b) reports a four-minute reduction in median travel time, but only for the journey between boarding and arrival, and explicitly states that passengers waiting at stops were not counted. Since the passage generalizes to 'reached their destinations sooner' without specifying whether this includes wait times or only on-board travel, and since the sources do not measure total travel time (which would include waiting), the claim overreaches the data. The evidence does not support a conclusion about overall travel time to destination, as waiting times are excluded and not accounted for. Thus, the causal inference to 'reached destinations sooner' is unsupported by the data, which only measures boarding-to-arrival time. This constitutes a misrepresentation of the measured outcome. The severity is major because the claim implies a complete travel time reduction, which is not established. The uncertainty is medium due to the lack of explicit data on total journey time including wait times, which are known to be part of the actual travel experience. Recommendation: Revise the passage to state 'The median time between boarding and arrival on K71 decreased by four minutes' to accurately reflect the evidence and avoid implying a total journey time reduction.'",
+            "evidence": [
+              {
+                "source_id": "transit-b",
+                "quote": "Route K71: inspectors timed journeys between boarding and arrival. Median travel time fell by four minutes. They did not count passengers waiting at stops.",
+                "start": 0,
+                "end": 155
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "People on K71 reached their destinations sooner.",
+                "passage_start": 0,
+                "passage_end": 48,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "transit-b",
+                    "quote": "Route K71: inspectors timed journeys between boarding and arrival. Median travel time fell by four minutes. They did not count passengers waiting at stops.",
+                    "start": 0,
+                    "end": 155
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "medium",
+                "recommendation": "Revise the passage to state 'The median time between boarding and arrival on K71 decreased by four minutes' to accurately reflect the evidence and avoid implying a total journey time reduction."
+              }
+            ]
+          },
+          "prompt_sha256": "aef7f117ee9c6cfde80342140e1b920f2c3787cfa478043b49ea3f5d13bc01f5"
+        },
+        "instrument-check": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "retain",
+            "rationale": "The passage states that the gauge and marked staff gave similar readings at the eastern footbridge the next morning. This is directly supported by the stream source, which reports that 'A maintenance crew checked the gauge against a marked staff the following morning. The two instruments agreed to within a centimetre.' The passage does not claim any measurement of water quality, fish count, or stream level beyond the instrument agreement, and the source confirms only the agreement of the gauge and marked staff. No unsupported inference or causal claim is made. The claim is limited to instrument agreement, which is explicitly confirmed in the source. Thus, the passage is accurately and directly supported.",
+            "evidence": [
+              {
+                "source_id": "stream",
+                "quote": "A maintenance crew checked the gauge against a marked staff the following morning. The two instruments agreed to within a centimetre.",
+                "start": 159,
+                "end": 292
+              }
+            ],
+            "issues": []
+          },
+          "prompt_sha256": "81f48dff1888988bee83ce4ade7600ae6fb412609e85e2b4820e1a7e2854aac7"
+        },
+        "wrong-site": {
+          "expected": "revise",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims that 'storm runoff increased sediment at the eastern footbridge, as the footbridge measurements show'—implying that measurements at the footbridge directly show increased sediment. However, the sources provide no evidence of sediment measurements at the footbridge. The stream sensor at the eastern footbridge only recorded stream height, which rose during the storm, but there is no mention of sediment concentration or any sediment-related measurement. The water-lab source reports increased suspended sediment in the western reservoir, not at the footbridge. The passage misattributes sediment increase to the footbridge measurements when no such measurements were taken. This constitutes a factual error in linking sediment increase to the footbridge's measurements, despite the storm affecting stream height. The causal link between storm runoff and sediment at the footbridge is unsupported by the data. The claim overreaches the evidence.",
+            "evidence": [
+              {
+                "source_id": "stream",
+                "quote": "On the eastern footbridge, a sensor recorded the height of the stream every hour. Readings rose during the storm. Nobody took a water sample or counted fish.",
+                "start": 0,
+                "end": 157
+              },
+              {
+                "source_id": "water-lab",
+                "quote": "Technicians tested water samples from the western reservoir before and after a storm. The concentration of suspended sediment increased. They recorded no water levels at the footbridge.",
+                "start": 0,
+                "end": 185
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "Storm runoff increased sediment at the eastern footbridge, as the footbridge measurements show.",
+                "passage_start": 0,
+                "passage_end": 95,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "stream",
+                    "quote": "On the eastern footbridge, a sensor recorded the height of the stream every hour. Readings rose during the storm. Nobody took a water sample or counted fish.",
+                    "start": 0,
+                    "end": 157
+                  },
+                  {
+                    "source_id": "water-lab",
+                    "quote": "Technicians tested water samples from the western reservoir before and after a storm. The concentration of suspended sediment increased. They recorded no water levels at the footbridge.",
+                    "start": 0,
+                    "end": 185
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "low",
+                "recommendation": "Revise the passage to state: 'Storm runoff led to increased suspended sediment in the western reservoir, as water samples show. Stream height increased at the eastern footbridge, but sediment measurements were not taken there.'"
+              }
+            ]
+          },
+          "prompt_sha256": "55e9406a62bd17b43ef37410468adc3ce166fc6d4a977a137eb45caf4ee4de83"
+        },
+        "perception-proxy": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "retain",
+            "rationale": "The passage states that 'most respondents felt safer at night after the station lamps were installed,' and the evidence from the night-poll supports this claim: the questionnaire asked cyclists how safe they felt at night, and most said they felt safer. The night-count shows an increase in bicycle traffic, but this is observational and does not directly measure perceived safety. However, the passage does not claim that the increase in traffic caused increased safety, nor does it claim a causal relationship—only that respondents felt safer. The evidence from the night-poll directly supports the reported perception of increased safety, which is consistent with the passage. No unsupported inference or causal claim is made beyond perception. Thus, the claim is supported by the provided evidence, and the passage does not overstate or misrepresent the data.",
+            "evidence": [
+              {
+                "source_id": "night-poll",
+                "quote": "After the lamps were installed at the station, a questionnaire asked cyclists how safe they felt at night. Most respondents said they felt safer. The questionnaire did not count trips.",
+                "start": 0,
+                "end": 184
+              }
+            ],
+            "issues": []
+          },
+          "prompt_sha256": "a56c7971ec4ea2cbcde4e589ff393bc64e6fc6bbdf233ae3971204943508af42"
+        },
+        "two-measures": {
+          "expected": "retain",
+          "critique": {
+            "schema_version": 1,
+            "verdict": "retain",
+            "rationale": "The passage claims that evening bicycle counts rose and most surveyed cyclists reported feeling safer after the station lamps were installed. The evidence supports both claims: the night-count source confirms a rise in observed bicycle counts after lamp installation, and the night-poll source confirms that most surveyed cyclists reported feeling safer. The passage does not claim causation, only that counts rose and safety perceptions improved. The sources do not contradict these observational associations. The passage accurately reflects the measured outcomes (increased counts, reported safety) without overreaching to causal claims. No unsupported inferences or misrepresentations are present.",
+            "evidence": [
+              {
+                "source_id": "night-poll",
+                "quote": "Most respondents said they felt safer.",
+                "start": 107,
+                "end": 145
+              },
+              {
+                "source_id": "night-count",
+                "quote": "Counts rose after the lamps were installed.",
+                "start": 72,
+                "end": 115
+              }
+            ],
+            "issues": []
+          },
+          "prompt_sha256": "3320c33732a861649f995f82c4f34ac24bc1e5921ccd9499dd45b5036836522e"
+        },
+        "absent-topic": {
+          "expected": null,
+          "critique": {
+            "schema_version": 1,
+            "verdict": "revise",
+            "rationale": "The passage claims that 'Meteorites contain nickel' but provides no evidence linking meteorites to nickel in any of the sources. The sources describe water samples, stream height measurements, and sediment changes during a storm, with no mention of meteorites or nickel content. The claim is entirely unsupported by the provided sources. There is a complete absence of any connection between meteorites and the observed environmental data. Thus, the assertion cannot be validated by the evidence, and the passage makes an unsupported scientific claim without basis in the given data.",
+            "evidence": [
+              {
+                "source_id": "water-lab",
+                "quote": "Technicians tested water samples from the western reservoir before and after a storm. The concentration of suspended sediment increased. They recorded no water levels at the footbridge.",
+                "start": 0,
+                "end": 185
+              },
+              {
+                "source_id": "stream",
+                "quote": "On the eastern footbridge, a sensor recorded the height of the stream every hour. Readings rose during the storm. Nobody took a water sample or counted fish.\n\nA maintenance crew checked the gauge against a marked staff the following morning. The two instruments agreed to within a centimetre.",
+                "start": 0,
+                "end": 292
+              }
+            ],
+            "issues": [
+              {
+                "issue_id": "i1",
+                "passage_quote": "Meteorites contain nickel",
+                "passage_start": 0,
+                "passage_end": 25,
+                "diagnosis": "evidence error",
+                "evidence": [
+                  {
+                    "source_id": "water-lab",
+                    "quote": "Technicians tested water samples from the western reservoir before and after a storm. The concentration of suspended sediment increased. They recorded no water levels at the footbridge.",
+                    "start": 0,
+                    "end": 185
+                  },
+                  {
+                    "source_id": "stream",
+                    "quote": "On the eastern footbridge, a sensor recorded the height of the stream every hour. Readings rose during the storm. Nobody took a water sample or counted fish.\n\nA maintenance crew checked the gauge against a marked staff the following morning. The two instruments agreed to within a centimetre.",
+                    "start": 0,
+                    "end": 292
+                  }
+                ],
+                "severity": "major",
+                "uncertainty": "low",
+                "recommendation": "Remove the claim 'Meteorites contain nickel' as it is not supported by any of the provided sources. The sources discuss water, sediment, and stream height during a storm, with no reference to meteorites or nickel."
+              }
+            ]
+          },
+          "prompt_sha256": "c684b3fdb60712645170fee9e6b97553ec32817b7458c4d3e02dda6438fcd5f8"
+        }
+      }
+    }
+  }
+}

@@ -18,7 +18,7 @@ Writing-FTM investigates this through a small, inspectable system: local model i
 
 Given a passage and source material, the engine produces a `retain` or `revise` verdict with a rationale. Each issue records the relevant passage, source evidence, severity, uncertainty, and a recommended correction.
 
-The local demo lets you inspect that record, change the framing and order of feedback, save preferences, and dispute a diagnosis. A dispute sends the evidence back through the model for reassessment. The CLI also supports a lexical retrieval baseline that selects evidence documents from a supplied collection.
+The local demo lets you inspect that record, change the framing and order of feedback, save preferences, and dispute a diagnosis. A dispute sends the evidence back through the model for reassessment. The CLI can select evidence documents using lexical search or local MiniLM embeddings with LangChain.
 
 Today, tone controls use fixed framing and field ordering. They preserve the stored diagnosis and advice exactly; they do not perform free-form rewriting. The browser demo logs feedback locally for later review; the widget keeps its session in memory and does not yet collect ratings or expose disputes. Neither trains the model automatically. A [20-update neutral-feedback QLoRA pilot](research/results/finetuning-pilot-v1/REPORT.md) has now run. It lowered validation loss but left verdict accuracy at 7/8 and introduced one repetitive, truncated response. A [follow-up repair](research/results/repetition-repair/REPORT.md) removed the observed repetition across two seeds using the official chat template and a lower learning rate. Verdict accuracy remained 7/8. The adapters are experimental and are not used by the demo.
 
@@ -86,11 +86,13 @@ For live inference on Apple Silicon:
 
 Setup requires [uv](https://docs.astral.sh/uv/getting-started/installation/). It creates `runs/runtime/model.json` for a pinned 4-bit Qwen3-4B snapshot with the audited Instruct template. Run `.venv/bin/python -m scripts.check_setup` to diagnose missing files. Setup is repeatable; `./scripts/setup_local.sh --offline` reuses a cached snapshot. The CLI, browser demo, and widget use this same default configuration; inference never downloads a model. It runs locally without a paid API. The measured machine is an M3 Pro with 18 GB unified memory; see the [capacity measurements](research/results/mac-capacity.md). The demo is a single-user local server. See the [walkthrough](research/demo-guide.md) for live disputes and feedback logging.
 
-CLI with optional retrieval:
+CLI with lexical retrieval enabled
 
 ```sh
 .venv/bin/python -m writing_ftm --input examples/critique-request.json --retrieve-k 1 --output runs/my-critique.json
 ```
+
+For semantic retrieval, run `./scripts/setup_rag.sh` and use `--retriever semantic --retrieve-k 2` in the RAG environment. The paired benchmark measures source recall and live Qwen verdicts on the same passages. [Semantic RAG setup, demo, and results](docs/semantic-rag.md)
 
 Reproduce the evaluations with new output directories:
 
@@ -105,7 +107,7 @@ python3 -m scripts.benchmark_retrieval
 - **Diagnosis remains unreliable.** Exact citations and valid JSON can accompany incorrect reasoning. Human review is required.
 - **The benchmark is small and synthetic.** Sources and labels are AI-authored; neither the labels nor the findings have independent human validation. Repeated passages from a source are dependent observations.
 - **Tone control is constrained.** Perceived warmth and preference improvements have not been established. Generative rewriting and style-example retrieval are not implemented.
-- **Retrieval evidence is limited.** The baseline was measured on six documents, not a realistic research corpus.
+- **Retrieval evidence is limited.** The paired lexical and semantic comparison covers ten fictional documents. Performance on larger collections and real writing remains unmeasured.
 - **This is an AI-assisted research prototype.** It is not an autonomous grader or a production service. The reserved sources have now been evaluated and must not become a reusable claim of unseen performance.
 
 Private writing references, ratings, models, and runtime logs are excluded from Git. The committed benchmark contains newly authored fictional passages. [Dataset provenance](data/writing-v1/DATASET_CARD.md).

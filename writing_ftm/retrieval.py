@@ -7,7 +7,7 @@ from collections import Counter
 def retrieve(query: str, sources: dict[str, str], k: int = 3) -> list[dict]:
     if k < 1: raise ValueError('k must be positive')
     tokenize = lambda text: re.findall(r"[a-z0-9]+", text.lower())
-    terms = set(tokenize(query))
+    terms = sorted(set(tokenize(query)))
     docs = {key: Counter(tokenize(value)) for key,value in sources.items()}
     scores=[]
     for key, counts in docs.items():

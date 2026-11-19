@@ -1,0 +1,130 @@
+{
+  "event_version": 1,
+  "action": "assess",
+  "evidence_standard": true,
+  "critique": {
+    "schema_version": 1,
+    "verdict": "revise",
+    "rationale": "The passage claims a causal effect ('caused') without sufficient evidence. The sources only show an association ('associated with') and do not establish causation. The tutorial study reports increased self-reported confidence, but notes no test of practical skill or performance observation, so no causal link can be established. The term 'caused' overstates the evidence; the data only support an association. Additionally, the workshop evidence is fictional and lacks any measurement of actual confidence change or control group data. Thus, the causal language is unsupported and must be revised to reflect the limited evidence.",
+    "evidence": [
+      {
+        "source_id": "workshop",
+        "quote": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+        "start": 0,
+        "end": 122
+      },
+      {
+        "source_id": "tutorial",
+        "quote": "After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work.",
+        "start": 0,
+        "end": 160
+      }
+    ],
+    "issues": [
+      {
+        "issue_id": "i1",
+        "passage_quote": "The workshop caused higher confidence.",
+        "passage_start": 0,
+        "passage_end": 38,
+        "diagnosis": "evidence error",
+        "evidence": [
+          {
+            "source_id": "workshop",
+            "quote": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+            "start": 0,
+            "end": 122
+          }
+        ],
+        "severity": "major",
+        "uncertainty": "high",
+        "recommendation": "Revise the claim from 'caused' to 'was associated with' to accurately reflect the evidence."
+      }
+    ]
+  },
+  "previous": null,
+  "reason": null,
+  "input_sha256": "fb842d15cabbc63924e010de99d6389f6821bbd1810e11b8d179751c832ff6bc",
+  "prompt_sha256": "58fcd3956a07815cf6caf0a4e2a55c33881b144b84c0f960aa929d4bebc25b8c",
+  "provider": {
+    "model": "mlx-community/Qwen3-4B-Instruct-2507-4bit",
+    "revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+    "template": {
+      "url": "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/raw/cdbee75f17c01a7cc42f958dc650907174af0554/tokenizer_config.json",
+      "upstream_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+      "sha256": "64f85b198065d0fba2a81f37e10ed68161ce2c19a754c7100e67e0ca2ee9c326",
+      "model_revision": "50d427756c6b1b2fe0c0a10f67fbda1fc8e82c1b",
+      "reason": "Remove thinking-model template from Instruct SFT; use official Instruct template"
+    },
+    "temperature": 0,
+    "max_tokens": 1024,
+    "backend": "mlx"
+  },
+  "seconds": 12.117457749962341,
+  "raw_response": "{\"schema_version\":1,\"verdict\":\"revise\",\"rationale\":\"The passage claims a causal effect ('caused') without sufficient evidence. The sources only show an association ('associated with') and do not establish causation. The tutorial study reports increased self-reported confidence, but notes no test of practical skill or performance observation, so no causal link can be established. The term 'caused' overstates the evidence; the data only support an association. Additionally, the workshop evidence is fictional and lacks any measurement of actual confidence change or control group data. Thus, the causal language is unsupported and must be revised to reflect the limited evidence.\",\"evidence\":[{\"source_id\":\"workshop\",\"quote\":\"In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.\"},{\"source_id\":\"tutorial\",\"quote\":\"After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work.\"}],\"issues\":[{\"issue_id\":\"i1\",\"passage_quote\":\"The workshop caused higher confidence.\",\"diagnosis\":\"evidence error\",\"evidence\":[{\"source_id\":\"workshop\",\"quote\":\"In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.\"}],\"severity\":\"major\",\"uncertainty\":\"high\",\"recommendation\":\"Revise the claim from 'caused' to 'was associated with' to accurately reflect the evidence.\"}]}",
+  "validation": "structure_and_literal_quotes_only",
+  "human_review_required": true,
+  "retrieval": [
+    {
+      "source_id": "workshop",
+      "score": 0.7064881868841107,
+      "text": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+      "matched_chunk": {
+        "id": "604ed3233ebe1ca9dc8e3f17d8206be7e50688026b39cb8d249fe6abf2b26900",
+        "start": 0,
+        "end": 122,
+        "text": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend."
+      }
+    },
+    {
+      "source_id": "tutorial",
+      "score": 0.4540250069844638,
+      "text": "After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work.",
+      "matched_chunk": {
+        "id": "191fbe7cab7a9eec5d88ddcd27babf6d8c0d862cd15080025eb3470eac8e841a",
+        "start": 0,
+        "end": 160,
+        "text": "After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work."
+      }
+    }
+  ],
+  "retrieval_metadata": {
+    "method": "langchain-semantic-parent",
+    "score": "cosine_similarity",
+    "corpus_sha256": "e42fd9c209faf25cb86bccb865bc21a1a2521603a9de734d3f7ee9ec51b3db88",
+    "documents": 10,
+    "chunks": 15,
+    "chunk_size_chars": 160,
+    "chunk_overlap_chars": 32,
+    "context_policy": "unchanged full parent documents; never concatenated chunks",
+    "libraries": {
+      "langchain-core": "1.8.3",
+      "langchain-text-splitters": "1.1.3"
+    },
+    "embedding": {
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "files_sha256": {
+        "model.safetensors": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+        "config.json": "953f9c0d463486b10a6871cc2fd59f223b2c70184f49815e7efbcab5d8908b41",
+        "config_sentence_transformers.json": "061ca9d39661d6c6d6de5ba27f79a1cd5770ea247f8d46412a68a498dc5ac9f3",
+        "modules.json": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+        "sentence_bert_config.json": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7",
+        "1_Pooling/config.json": "4be450dde3b0273bb9787637cfbd28fe04a7ba6ab9d36ac48e92b11e350ffc23",
+        "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037",
+        "tokenizer_config.json": "acb92769e8195aabd29b7b2137a9e6d6e25c476a4f15aa4355c233426c61576b",
+        "special_tokens_map.json": "303df45a03609e4ead04bc3dc1536d0ab19b5358db685b6f3da123d05ec200e3",
+        "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+      },
+      "device": "cpu",
+      "threads": 4,
+      "normalize_embeddings": true,
+      "dimensions": 384,
+      "max_sequence_tokens": 256
+    },
+    "query": "The workshop caused higher confidence.",
+    "query_sha256": "5d03ef8681367145229f670d5e1d048de54e7589d9891c3c7539bf8b517c977a",
+    "k": 2,
+    "min_score": null,
+    "max_context_chars": 16000
+  }
+}

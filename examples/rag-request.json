@@ -1,0 +1,15 @@
+{
+  "passage": "The workshop caused higher confidence.",
+  "sources": {
+    "workshop": "In this fictional survey, workshop attendance was associated with higher confidence. Participants chose whether to attend.",
+    "tutorial": "After an online tutorial, volunteers rated themselves more confident. The study collected no test of practical skill and no observations of performance at work.",
+    "stacks": "The branch library removed overdue fines in September. Its ledger shows a rise in the number of borrowed books brought back after the change. The library made no record of who returned the books or why.",
+    "payments": "Several tenants returned their keys late. The housing office recorded higher payments after introducing a late fee. No tenant borrowed money from the office.",
+    "transit-a": "Route K17: inspectors logged how long passengers waited at stops. The median wait fell from twelve to eight minutes. They did not record how long anyone spent on board.",
+    "transit-b": "Route K71: inspectors timed journeys between boarding and arrival. Median travel time fell by four minutes. They did not count passengers waiting at stops.",
+    "stream": "On the eastern footbridge, a sensor recorded the height of the stream every hour. Readings rose during the storm. Nobody took a water sample or counted fish.\n\nA maintenance crew checked the gauge against a marked staff the following morning. The two instruments agreed to within a centimetre.",
+    "water-lab": "Technicians tested water samples from the western reservoir before and after a storm. The concentration of suspended sediment increased. They recorded no water levels at the footbridge.",
+    "night-count": "Observers counted bicycles passing the station entrance in the evening. Counts rose after the lamps were installed. The observers did not interview riders.",
+    "night-poll": "After the lamps were installed at the station, a questionnaire asked cyclists how safe they felt at night. Most respondents said they felt safer. The questionnaire did not count trips."
+  }
+}
